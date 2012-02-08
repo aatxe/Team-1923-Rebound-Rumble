@@ -6,7 +6,8 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class Output {
     public static void say(String statement) {
-        System.out.println("[MidKnight Inventors] [" + now() + "] " + statement);
+        System.out
+                .println("[MidKnight Inventors] [" + now() + "] " + statement);
         Timer.delay(0.01);
     }
 
@@ -16,6 +17,6 @@ public class Output {
         int minutes = calendar.get(Calendar.MINUTE);
         int seconds = calendar.get(Calendar.SECOND);
         // int milliseconds = calendar.get(Calendar.MILLISECOND);
-        return ((hours + (TimeZone.getDefault().useDaylightTime() ? 1 : 0)) + ":" + ((minutes < 10) ? "0" + minutes : "" + minutes) + ":" + ((seconds < 10) ? "0" + seconds : "" + seconds));
+        return (hours + TimeZone.getDefault().useDaylightTime() ? 1 : 0) + ':' + (minutes < 10 ? '0': '') + minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
     }
 }
