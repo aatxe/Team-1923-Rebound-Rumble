@@ -17,6 +17,6 @@ public class Output {
         int minutes = calendar.get(Calendar.MINUTE);
         int seconds = calendar.get(Calendar.SECOND);
         // int milliseconds = calendar.get(Calendar.MILLISECOND);
-        return (hours + TimeZone.getDefault().useDaylightTime() ? 1 : 0) + ':' + (minutes < 10 ? '0': '') + minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+        return (hours + TimeZone.getDefault().useDaylightTime() ? 1 : 0) + ':' + (minutes < 10 ? '0': "") + minutes + ':' + (seconds < 10 ? '0' : "") + seconds;
     }
 }
