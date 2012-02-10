@@ -18,8 +18,7 @@ public class BhavishStick extends Joystick {
 		super(port, numAxisTypes, numButtonTypes);
 	}
 
-	public BhavishStick(int port, int numAxisTypes, int numButtonTypes,
-			double epsilon) {
+	public BhavishStick(int port, int numAxisTypes, int numButtonTypes, double epsilon) {
 		super(port, numAxisTypes, numButtonTypes);
 		coalescor.setEpsilon(epsilon);
 	}

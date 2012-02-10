@@ -15,8 +15,7 @@ public class HumanDriver {
 	private boolean wtf = false;
 	private int shooterSpeed = 0;
 
-	public HumanDriver(DriveTrain driveTrain, Shooter shooter,
-			Components components) {
+	public HumanDriver(DriveTrain driveTrain, Shooter shooter, Components components) {
 		this.driveTrain = driveTrain;
 		this.shooter = shooter;
 		driveGearbox = new Gearbox(Configuration.driveGears, components);
@@ -29,8 +28,7 @@ public class HumanDriver {
 
 	public void handleActiveDriving() {
 		if (Configuration.reversedControls) {
-			driveTrain.drive(rightDriveStick.getCoalescedY(),
-					leftDriveStick.getCoalescedY());
+			driveTrain.drive(rightDriveStick.getCoalescedY(), leftDriveStick.getCoalescedY());
 		} else {
 			double left = -leftDriveStick.getCoalescedY();
 			double right = -rightDriveStick.getCoalescedY();
@@ -42,21 +40,15 @@ public class HumanDriver {
 
 	public void handlePassiveDriving() {
 		if (Configuration.gearShifter) {
-			if (leftDriveStick.getButton(Joystick.ButtonType.kTrigger)
-					&& !rightDriveStick.getButton(Joystick.ButtonType.kTrigger)
-					&& !driveGearbox.didJustGearDown()) {
+			if (leftDriveStick.getButton(Joystick.ButtonType.kTrigger) && !rightDriveStick.getButton(Joystick.ButtonType.kTrigger) && !driveGearbox.didJustGearDown()) {
 				driveGearbox.gearDown();
-			} else if (rightDriveStick.getButton(Joystick.ButtonType.kTrigger)
-					&& !leftDriveStick.getButton(Joystick.ButtonType.kTrigger)
-					&& !driveGearbox.didJustGearUp()) {
+			} else if (rightDriveStick.getButton(Joystick.ButtonType.kTrigger) && !leftDriveStick.getButton(Joystick.ButtonType.kTrigger) && !driveGearbox.didJustGearUp()) {
 				driveGearbox.gearUp();
-			} else if (!leftDriveStick.getButton(Joystick.ButtonType.kTrigger)
-					&& !rightDriveStick.getButton(Joystick.ButtonType.kTrigger)) {
+			} else if (!leftDriveStick.getButton(Joystick.ButtonType.kTrigger) && !rightDriveStick.getButton(Joystick.ButtonType.kTrigger)) {
 				driveGearbox.resetGearControls();
 			}
 		} else {
-			if (leftDriveStick.getButton(Joystick.ButtonType.kTrigger)
-					&& rightDriveStick.getButton(Joystick.ButtonType.kTrigger)) {
+			if (leftDriveStick.getButton(Joystick.ButtonType.kTrigger) && rightDriveStick.getButton(Joystick.ButtonType.kTrigger)) {
 				driveGearbox.setGear(6);
 			} else {
 				driveGearbox.setGear(0);
@@ -81,15 +73,13 @@ public class HumanDriver {
 		} else {
 			bridgeKnockerDowner.set(Relay.Value.kOff);
 		}
-		if (rightDriveStick.getRawButton(11)
-				&& shooterSpeed < Configuration.shooterGears.length) {
+		if (rightDriveStick.getRawButton(11) && shooterSpeed < Configuration.shooterGears.length) {
 			shooterSpeed++;
 			wtf = true;
 		} else if (rightDriveStick.getRawButton(10) && shooterSpeed > 0) {
 			shooterSpeed--;
 			wtf = true;
-		} else if (!rightDriveStick.getRawButton(11)
-				&& !rightDriveStick.getRawButton(10)) {
+		} else if (!rightDriveStick.getRawButton(11) && !rightDriveStick.getRawButton(10)) {
 			wtf = false;
 		}
 	}
