@@ -11,21 +11,21 @@ public class HumanDriver {
 	private Gearbox driveGearbox;
 	private DriveTrain driveTrain;
 	private Relay bridgeKnockerDowner;
-	
+
 	private boolean wtf = false;
 	private int shooterSpeed = 0;
-			
+
 	public HumanDriver(DriveTrain driveTrain, Shooter shooter, Components components) {
 		this.driveTrain = driveTrain;
 		this.shooter = shooter;
-		driveGearbox =  new Gearbox(Configuration.driveGears, components);
+		driveGearbox = new Gearbox(Configuration.driveGears, components);
 		leftDriveStick = components.leftDriveStick;
 		rightDriveStick = components.rightDriveStick;
 		operatorController = components.operatorController;
 		bridgeKnockerDowner = components.bridgeKnockerDowner;
 		components.drive.setSafetyEnabled(false);
 	}
-	
+
 	public void handleActiveDriving() {
 		if (Configuration.reversedControls) {
 			driveTrain.drive(rightDriveStick.getCoalescedY(), leftDriveStick.getCoalescedY());
@@ -37,7 +37,7 @@ public class HumanDriver {
 			driveTrain.drive(left, right);
 		}
 	}
-	
+
 	public void handlePassiveDriving() {
 		if (Configuration.gearShifter) {
 			if (leftDriveStick.getButton(Joystick.ButtonType.kTrigger) && !rightDriveStick.getButton(Joystick.ButtonType.kTrigger) && !driveGearbox.didJustGearDown()) {
@@ -49,13 +49,13 @@ public class HumanDriver {
 			}
 		} else {
 			if (leftDriveStick.getButton(Joystick.ButtonType.kTrigger) && rightDriveStick.getButton(Joystick.ButtonType.kTrigger)) {
-	            driveGearbox.setGear(6);
-	        } else {
-	        	driveGearbox.setGear(0);
-	        }
+				driveGearbox.setGear(6);
+			} else {
+				driveGearbox.setGear(0);
+			}
 		}
 	}
-	
+
 	public void handleActiveOperating() {
 		if (rightDriveStick.getRawButton(5)) {
 			shooter.run(Configuration.shooterGears[shooterSpeed]);

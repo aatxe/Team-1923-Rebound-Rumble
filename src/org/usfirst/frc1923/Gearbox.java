@@ -13,7 +13,7 @@ public class Gearbox {
 		this.gears = gears;
 		this.drive = components.drive;
 	}
-	
+
 	public Gearbox(int start, int end, int increment, Components components) {
 		int length = ((end - start) / increment) + 1;
 		double[] gears = new double[length];
@@ -23,43 +23,43 @@ public class Gearbox {
 		this.gears = gears;
 		this.drive = components.drive;
 	}
-	
+
 	public void setGear(int gear) {
-        if (this.gear != gear && gear < (gears.length - 1) && gear > 0) {
-            this.gear = gear;
-            Output.say("Gear changed to " + gear + ".");
-            drive.setMaxOutput(gears[gear]);
-        }
-    }
+		if (this.gear != gear && gear < (gears.length - 1) && gear > 0) {
+			this.gear = gear;
+			Output.say("Gear changed to " + gear + ".");
+			drive.setMaxOutput(gears[gear]);
+		}
+	}
 
-    public void gearDown() {
-        if (gear > 0) {
-            --gear;
-            Output.say("Geared down to " + gear + ".");
-            drive.setMaxOutput(gears[gear]);
-            justGearedDown = true;
-        }
-    }
+	public void gearDown() {
+		if (gear > 0) {
+			--gear;
+			Output.say("Geared down to " + gear + ".");
+			drive.setMaxOutput(gears[gear]);
+			justGearedDown = true;
+		}
+	}
 
-    public void gearUp() {
-        if (gear < (gears.length - 1)) {
-            ++gear;
-            Output.say("Geared up to " + gear + ".");
-            drive.setMaxOutput(gears[gear]);
-            justGearedUp = true;
-        }
-    }
-    
-    public boolean didJustGearUp() {
-    	return this.justGearedUp;
-    }
-    
-    public boolean didJustGearDown() {
-    	return this.justGearedDown;
-    }
-    
+	public void gearUp() {
+		if (gear < (gears.length - 1)) {
+			++gear;
+			Output.say("Geared up to " + gear + ".");
+			drive.setMaxOutput(gears[gear]);
+			justGearedUp = true;
+		}
+	}
+
+	public boolean didJustGearUp() {
+		return this.justGearedUp;
+	}
+
+	public boolean didJustGearDown() {
+		return this.justGearedDown;
+	}
+
 	public void resetGearControls() {
-    	justGearedDown = false;
-    	justGearedUp = false;
-    }
+		justGearedDown = false;
+		justGearedUp = false;
+	}
 }
