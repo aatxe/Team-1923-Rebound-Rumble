@@ -30,11 +30,10 @@ public class HumanDriver {
 		if (Configuration.experimentalDriving) {
 			double throttle = leftDriveStick.getCoalescedY();
 			double turning = rightDriveStick.getCoalescedX();
-			int direction = 0;
 			if (turning < 0) {
-				driveTrain.drive(throttle - 0.2, throttle);
+				driveTrain.drive(throttle + turning, throttle);
 			} else if (turning < 0) {
-				driveTrain.drive(throttle, throttle - 0.2);
+				driveTrain.drive(throttle, throttle - turning);
 			}
 		} else if (Configuration.reversedControls) {
 			driveTrain.drive(rightDriveStick.getCoalescedY(), leftDriveStick.getCoalescedY());
@@ -44,6 +43,13 @@ public class HumanDriver {
 	}
 
 	public void handlePassiveDriving() {
+		if (Configuration.experimentalDriving) {
+			if (rightDriveStick.getRawButton(4)) {
+				driveTrain.drive(0.75, -0.75);
+			} else if (rightDriveStick.getRawButton(5)) {
+				driveTrain.drive(-0.75, 0.75);
+			}
+		}
 		if (Configuration.gearShifter) {
 			if (leftDriveStick.getButton(Joystick.ButtonType.kTrigger) && !rightDriveStick.getButton(Joystick.ButtonType.kTrigger) && !driveGearbox.didJustGearDown()) {
 				driveGearbox.gearDown();
