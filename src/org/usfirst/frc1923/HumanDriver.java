@@ -43,13 +43,13 @@ public class HumanDriver {
 	}
 
 	public void handlePassiveDriving() {
-		if (Configuration.experimentalDriving) {
+		/*if (Configuration.experimentalDriving) {
 			if (rightDriveStick.getRawButton(4)) {
 				driveTrain.drive(0.75, -0.75);
 			} else if (rightDriveStick.getRawButton(5)) {
 				driveTrain.drive(-0.75, 0.75);
 			}
-		}
+		}*/
 		if (Configuration.gearShifter) {
 			if (leftDriveStick.getButton(Joystick.ButtonType.kTrigger) && !rightDriveStick.getButton(Joystick.ButtonType.kTrigger) && !driveGearbox.didJustGearDown()) {
 				driveGearbox.gearDown();
@@ -86,9 +86,11 @@ public class HumanDriver {
 		}
 		if (rightDriveStick.getRawButton(11) && shooterSpeed < Configuration.shooterGears.length && !didShooterGearChange) {
 			shooterSpeed++;
+			Output.say("Up.");
 			didShooterGearChange = true;
 		} else if (rightDriveStick.getRawButton(10) && shooterSpeed > 0 && !didShooterGearChange) {
 			shooterSpeed--;
+			Output.say("Down.");
 			didShooterGearChange = true;
 		} else if (!rightDriveStick.getRawButton(11) && !rightDriveStick.getRawButton(10)) {
 			didShooterGearChange = false;

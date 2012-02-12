@@ -1,5 +1,6 @@
 package org.usfirst.frc1923;
 
+import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -16,4 +17,5 @@ public class Components {
 	public final BhavishStick rightDriveStick = new BhavishStick(2);
 	public final XboxController operatorController = new XboxController(3);
 	public final Relay bridgeKnockerDowner = new Relay(1);
+	public final Gyro gyroscope = new Gyro(1);
 }
