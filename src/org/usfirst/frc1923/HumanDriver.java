@@ -12,7 +12,7 @@ public class HumanDriver {
 	private DriveTrain driveTrain;
 	private Relay bridgeKnockerDowner;
 
-	private boolean wtf = false;
+	private boolean didShooterGearChange = false;
 	private int shooterSpeed = 0;
 
 	public HumanDriver(DriveTrain driveTrain, Shooter shooter, Components components) {
@@ -27,14 +27,19 @@ public class HumanDriver {
 	}
 
 	public void handleActiveDriving() {
-		if (Configuration.reversedControls) {
+		if (Configuration.experimentalDriving) {
+			double throttle = leftDriveStick.getCoalescedY();
+			double turning = rightDriveStick.getCoalescedX();
+			int direction = 0;
+			if (turning < 0) {
+				driveTrain.drive(throttle - 0.2, throttle);
+			} else if (turning < 0) {
+				driveTrain.drive(throttle, throttle - 0.2);
+			}
+		} else if (Configuration.reversedControls) {
 			driveTrain.drive(rightDriveStick.getCoalescedY(), leftDriveStick.getCoalescedY());
 		} else {
-			double left = -leftDriveStick.getCoalescedY();
-			double right = -rightDriveStick.getCoalescedY();
-			Output.say("L: " + left);
-			Output.say("R: " + right);
-			driveTrain.drive(left, right);
+			driveTrain.drive(-leftDriveStick.getCoalescedY(), -rightDriveStick.getCoalescedY());
 		}
 	}
 
@@ -73,14 +78,14 @@ public class HumanDriver {
 		} else {
 			bridgeKnockerDowner.set(Relay.Value.kOff);
 		}
-		if (rightDriveStick.getRawButton(11) && shooterSpeed < Configuration.shooterGears.length) {
+		if (rightDriveStick.getRawButton(11) && shooterSpeed < Configuration.shooterGears.length && !didShooterGearChange) {
 			shooterSpeed++;
-			wtf = true;
-		} else if (rightDriveStick.getRawButton(10) && shooterSpeed > 0) {
+			didShooterGearChange = true;
+		} else if (rightDriveStick.getRawButton(10) && shooterSpeed > 0 && !didShooterGearChange) {
 			shooterSpeed--;
-			wtf = true;
+			didShooterGearChange = true;
 		} else if (!rightDriveStick.getRawButton(11) && !rightDriveStick.getRawButton(10)) {
-			wtf = false;
+			didShooterGearChange = false;
 		}
 	}
 }
