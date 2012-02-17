@@ -7,7 +7,8 @@ public class HumanDriver {
 	private DriveTrain driveTrain;
 	private Shooter shooter;
 	private Conveyor conveyor;
-	
+	private CameraController cameraController;
+
 	private BhavishStick leftDriveStick;
 	private BhavishStick rightDriveStick;
 	private XboxController operatorController;
@@ -17,15 +18,16 @@ public class HumanDriver {
 	private boolean didShooterGearChange = false;
 	private int shooterSpeed = 0;
 
-	public HumanDriver(DriveTrain driveTrain, Shooter shooter, Conveyor conveyor, Components components) {
+	public HumanDriver(DriveTrain driveTrain, Shooter shooter, Conveyor conveyor, CameraController cameraController, Components components) {
 		this.driveTrain = driveTrain;
 		this.shooter = shooter;
 		this.conveyor = conveyor;
-		driveGearbox = new Gearbox(Configuration.driveGears, components);
-		leftDriveStick = components.leftDriveStick;
-		rightDriveStick = components.rightDriveStick;
-		operatorController = components.operatorController;
-		bridgeKnockerDowner = components.bridgeKnockerDowner;
+		this.cameraController = cameraController;
+		this.driveGearbox = new Gearbox(Configuration.driveGears, components);
+		this.leftDriveStick = components.leftDriveStick;
+		this.rightDriveStick = components.rightDriveStick;
+		this.operatorController = components.operatorController;
+		this.bridgeKnockerDowner = components.bridgeKnockerDowner;
 		components.drive.setSafetyEnabled(false);
 	}
 
@@ -82,7 +84,7 @@ public class HumanDriver {
 			conveyor.pickupBalls(0.40);
 		} else if (operatorController.getButton(XboxController.Button.B)) {
 			conveyor.runMidLevel(Relay.Value.kReverse);
-		} else if (operatorController.getButton(XboxController.Button.A)) { 
+		} else if (operatorController.getButton(XboxController.Button.A)) {
 			conveyor.runMidLevel(Relay.Value.kForward);
 		} else if (operatorController.getButton(XboxController.Button.RB)) {
 			conveyor.stopPickup();

@@ -18,12 +18,12 @@ public class Conveyor {
 		pickupConveyorLeft.set(value);
 		pickupConveyorRight.set(value);
 	}
-	
+
 	public void stopPickup() {
 		pickupConveyorLeft.stopMotor();
 		pickupConveyorRight.stopMotor();
 	}
-	
+
 	public void runMidLevel(Relay.Value value) {
 		middleConveyor.set(value);
 	}

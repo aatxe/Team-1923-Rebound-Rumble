@@ -1,14 +1,23 @@
 package org.usfirst.frc1923;
 
-public class HybridDriver {
-	private Shooter shooter;
-	private Gearbox driveGearbox;
-	private DriveTrain driveTrain;
+import edu.wpi.first.wpilibj.Relay;
 
-	public HybridDriver(Components components) {
+public class HybridDriver {
+	private DriveTrain driveTrain;
+	private Shooter shooter;
+	private Conveyor conveyor;
+	private CameraController cameraController;
+	
+	private Gearbox driveGearbox;
+	private Relay bridgeKnockerDowner;
+
+	public HybridDriver(DriveTrain driveTrain, Shooter shooter, Conveyor conveyor, CameraController cameraController, Components components) {
 		this.driveTrain = driveTrain;
 		this.shooter = shooter;
-		driveGearbox = new Gearbox(Configuration.driveGears, components);
+		this.conveyor = conveyor;
+		this.cameraController = cameraController;
+		this.driveGearbox = new Gearbox(Configuration.driveGears, components);
+		this.bridgeKnockerDowner = components.bridgeKnockerDowner;
 		components.drive.setSafetyEnabled(false);
 	}
 
@@ -29,7 +38,7 @@ public class HybridDriver {
 		shooter.run(Configuration.shooterGears[0]);
 	}
 
-	private void GetInPositionToGetBalls() { 
+	private void GetInPositionToGetBalls() {
 		// from bridge, not ball hole (saves
 		// time, time is money, saves money,
 		// budget problem fixed!)

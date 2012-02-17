@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.camera.AxisCamera;
 
 public class Components {
 	public Watchdog kaynine;
-	// public final AxisCamera camera = AxisCamera.getInstance();
+	public final AxisCamera camera = AxisCamera.getInstance();
 	public final RobotDrive drive = new RobotDrive(2, 1, 4, 3);
 	public final Jaguar shooter = new Jaguar(5);
 	public final Jaguar hood = new Jaguar(6);
