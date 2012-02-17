@@ -6,7 +6,8 @@ public class Team1923Robot extends IterativeRobot {
 	private Components components = new Components();
 	private DriveTrain driveTrain = new DriveTrain(components);
 	private Shooter shooter = new Shooter(components);
-	private HumanDriver humanDriver = new HumanDriver(driveTrain, shooter, components);
+	private Conveyor conveyor = new Conveyor(components);
+	private HumanDriver humanDriver = new HumanDriver(driveTrain, shooter, conveyor, components);
 
 	public void robotInit() {
 		Output.say("Robot Initialized");

@@ -13,6 +13,9 @@ public class Components {
 	public final RobotDrive drive = new RobotDrive(2, 1, 4, 3);
 	public final Jaguar shooter = new Jaguar(5);
 	public final Jaguar hood = new Jaguar(6);
+	public final Jaguar pickupConveyorLeft = new Jaguar(9);
+	public final Jaguar pickupConveyorRight = new Jaguar(10);
+	public final Relay middleConveyor = new Relay(2);
 	public final BhavishStick leftDriveStick = new BhavishStick(1);
 	public final BhavishStick rightDriveStick = new BhavishStick(2);
 	public final XboxController operatorController = new XboxController(3);

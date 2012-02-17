@@ -46,7 +46,7 @@ public class XboxController {
 	}
 
 	public double getAxis(int stickNumber, int axisNumber) {
-		int axes[] = {2, 1, 5, 4};
+		int axes[] = {2, 1, 5, 4, 7, 6};
 		int fAxis = 0;
 		if (stickNumber == 1 && axisNumber == 1) {
 			fAxis = axes[0];
@@ -56,6 +56,10 @@ public class XboxController {
 			fAxis = axes[2];
 		} else if (stickNumber == 2 && axisNumber == 2) {
 			fAxis = axes[3];
+		} else if (stickNumber == 3 && axisNumber == 1) {
+			fAxis = axes[4];
+		} else if (stickNumber == 3 && axisNumber == 2) {
+			fAxis = axes[5];
 		} else {
 			return -74;
 		}

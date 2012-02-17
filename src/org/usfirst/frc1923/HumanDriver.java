@@ -4,20 +4,23 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Relay;
 
 public class HumanDriver {
+	private DriveTrain driveTrain;
 	private Shooter shooter;
+	private Conveyor conveyor;
+	
 	private BhavishStick leftDriveStick;
 	private BhavishStick rightDriveStick;
 	private XboxController operatorController;
 	private Gearbox driveGearbox;
-	private DriveTrain driveTrain;
 	private Relay bridgeKnockerDowner;
 
 	private boolean didShooterGearChange = false;
 	private int shooterSpeed = 0;
 
-	public HumanDriver(DriveTrain driveTrain, Shooter shooter, Components components) {
+	public HumanDriver(DriveTrain driveTrain, Shooter shooter, Conveyor conveyor, Components components) {
 		this.driveTrain = driveTrain;
 		this.shooter = shooter;
+		this.conveyor = conveyor;
 		driveGearbox = new Gearbox(Configuration.driveGears, components);
 		leftDriveStick = components.leftDriveStick;
 		rightDriveStick = components.rightDriveStick;
@@ -70,16 +73,28 @@ public class HumanDriver {
 	public void handleActiveOperating() {
 		if (rightDriveStick.getRawButton(5)) {
 			shooter.run(Configuration.shooterGears[shooterSpeed]);
-		} else if (rightDriveStick.getRawButton(4)) {
+		} else if (leftDriveStick.getRawButton(5)) {
 			shooter.stop();
 		}
-		shooter.adjustHood(0.13 * operatorController.getAxis(2, 1));
+		if (operatorController.getButton(XboxController.Button.X)) {
+			conveyor.pickupBalls(-0.40);
+		} else if (operatorController.getButton(XboxController.Button.Y)) {
+			conveyor.pickupBalls(0.40);
+		} else if (operatorController.getButton(XboxController.Button.B)) {
+			conveyor.runMidLevel(Relay.Value.kReverse);
+		} else if (operatorController.getButton(XboxController.Button.A)) { 
+			conveyor.runMidLevel(Relay.Value.kForward);
+		} else if (operatorController.getButton(XboxController.Button.RB)) {
+			conveyor.stopPickup();
+			conveyor.stopMidLevel();
+		}
+		// shooter.adjustHood(0.13 * operatorController.getAxis(2, 1));
 	}
 
 	public void handlePassiveOperating() {
-		if (leftDriveStick.getRawButton(3)) {
+		if (operatorController.getButton(XboxController.Button.Back)) {
 			bridgeKnockerDowner.set(Relay.Value.kReverse);
-		} else if (rightDriveStick.getRawButton(3)) {
+		} else if (operatorController.getButton(XboxController.Button.Start)) {
 			bridgeKnockerDowner.set(Relay.Value.kForward);
 		} else {
 			bridgeKnockerDowner.set(Relay.Value.kOff);

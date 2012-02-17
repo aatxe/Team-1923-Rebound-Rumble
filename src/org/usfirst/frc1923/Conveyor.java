@@ -1,27 +1,34 @@
 package org.usfirst.frc1923;
 
 import edu.wpi.first.wpilibj.Jaguar;
+import edu.wpi.first.wpilibj.Relay;
 
 public class Conveyor {
-	private Jaguar pickupConveyor;
-	private Jaguar middleConveyor;
+	private Jaguar pickupConveyorLeft;
+	private Jaguar pickupConveyorRight;
+	private Relay middleConveyor;
 
 	public Conveyor(Components components) {
+		pickupConveyorLeft = components.pickupConveyorLeft;
+		pickupConveyorRight = components.pickupConveyorRight;
+		middleConveyor = components.middleConveyor;
 	}
 
 	public void pickupBalls(double value) {
-		pickupConveyor.set(value);
+		pickupConveyorLeft.set(value);
+		pickupConveyorRight.set(value);
 	}
 	
 	public void stopPickup() {
-		pickupConveyor.stopMotor();
+		pickupConveyorLeft.stopMotor();
+		pickupConveyorRight.stopMotor();
 	}
 	
-	public void runMidLevel(double value) {
+	public void runMidLevel(Relay.Value value) {
 		middleConveyor.set(value);
 	}
 
 	public void stopMidLevel() {
-		middleConveyor.stopMotor();
+		middleConveyor.set(Relay.Value.kOff);
 	}
 }
