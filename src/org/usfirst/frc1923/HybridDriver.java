@@ -8,7 +8,7 @@ public class HybridDriver {
 	private Conveyor conveyor;
 	private CameraController cameraController;
 	
-	private Gearbox driveGearbox;
+	private DriveGearbox driveGearbox;
 	private Relay bridgeKnockerDowner;
 
 	public HybridDriver(DriveTrain driveTrain, Shooter shooter, Conveyor conveyor, CameraController cameraController, Components components) {
@@ -16,7 +16,7 @@ public class HybridDriver {
 		this.shooter = shooter;
 		this.conveyor = conveyor;
 		this.cameraController = cameraController;
-		this.driveGearbox = new Gearbox(Configuration.driveGears, components);
+		this.driveGearbox = new DriveGearbox(Configuration.driveGears, components);
 		this.bridgeKnockerDowner = components.bridgeKnockerDowner;
 		components.drive.setSafetyEnabled(false);
 	}
@@ -47,6 +47,9 @@ public class HybridDriver {
 								// to more balls
 		// use the sensors to judge position, and then go/stop/turn/pick up
 		// balls
-
+	}
+	
+	public boolean isShooterRunning() {
+		return false;
 	}
 }

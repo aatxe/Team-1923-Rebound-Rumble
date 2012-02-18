@@ -16,7 +16,8 @@ public class CameraController {
 	
 	public CameraController(Components components) {
 		try {
-			camera = components.camera;
+			// camera = components.camera;
+			camera = null;
 			imageController = new Camera(camera.getImage());
 		} catch (Exception e) {}
 	}
