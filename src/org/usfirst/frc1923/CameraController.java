@@ -18,7 +18,8 @@ public class CameraController {
 			chercheur.update(image);
 			prioritizer.update(chercheur.getTargets());
 			image.free();
-		} catch (Exception e) {}
+		} catch (Exception e) {
+		}
 	}
 
 	public CameraDataPacket getHighestBasket() {
@@ -58,7 +59,10 @@ public class CameraController {
 
 	public CameraDataPacket getLowestBasket() {
 		this.update();
-		CameraDataPacket[] targets = prioritizer.getTargets();
+		CameraDataPacket[] targets = new CameraDataPacket[prioritizer.getTargets().length];
+		for (int i = 0; i < prioritizer.getTargets().length; i++) {
+			targets[i] = prioritizer.getTargets()[i];
+		}
 		return targets[0];
 	}
 }

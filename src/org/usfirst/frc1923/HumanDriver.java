@@ -37,7 +37,7 @@ public class HumanDriver {
 		this.bridgeKnockerDowner = components.bridgeKnockerDowner;
 		this.leftShooterLimit = components.leftShooterLimit;
 		this.rightShooterLimit = components.rightShooterLimit;
-		this.sst = new ShooterSteeringThread(shooter, cameraController);
+		this.sst = new ShooterSteeringThread(shooter);
 		components.drive.setSafetyEnabled(false);
 	}
 
@@ -85,20 +85,22 @@ public class HumanDriver {
 	}
 
 	public void handleActiveOperating() {
-		if (sst.needsUpdate()) {
+		if (sst.isRunning() && sst.needsUpdate()) {
 			try {
 				sst.update(cameraController.getLowestBasket());
-			} catch (Exception e) {}
+			} catch (Exception e) {
+			}
 		}
 		if (operatorController.getButton(XboxController.Button.LeftClick) && !sst.isRunning()) {
-			if(!sst.getNeedsToRun()) {
-				sst.setNeedsToRun(true);
-			}
 			try {
+				Output.say("[SST] Show me the money!");
+				sst = new ShooterSteeringThread(shooter);
 				cameraController.update();
 				sst.update(cameraController.getLowestBasket());
 				sst.start();
-			} catch (Exception e) {}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		if (operatorController.getButton(XboxController.Button.RightClick) && !sst.isRunning()) {
 			shooter.run(CameraDataCalculator.getForce(sst.getDataPacket()));
