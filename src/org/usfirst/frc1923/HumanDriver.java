@@ -93,6 +93,7 @@ public class HumanDriver {
 		}
 		if (operatorController.getButton(XboxController.Button.LeftClick) && !sst.isRunning()) {
 			try {
+				sst.die();
 				sst = new ShooterSteeringThread(shooter);
 				cameraController.update();
 				sst.update(cameraController.getLowestBasket());

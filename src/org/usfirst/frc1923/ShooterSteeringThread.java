@@ -6,6 +6,7 @@ public class ShooterSteeringThread extends Thread {
 	private boolean needsUpdate;
 	private boolean isRunning;
 	private boolean justRan;
+	private boolean die;
 
 	public ShooterSteeringThread(Shooter shooter) {
 		this.shooter = shooter;
@@ -32,7 +33,15 @@ public class ShooterSteeringThread extends Thread {
 	public boolean justRan() {
 		return justRan;
 	}
+	
+	public boolean didThreadDie() {
+		return die;
+	}
 
+	public void die() {
+		die = true;
+	}
+	
 	public boolean isCentered() {
 		return (!(this.cdp.getX() > 323) && !(this.cdp.getX() < 317));
 	}
@@ -47,7 +56,7 @@ public class ShooterSteeringThread extends Thread {
 	}
 
 	public void run() {
-		while ((!this.isCentered())) {
+		while ((!this.isCentered()) && !die) {
 			if (!this.needsUpdate()) {
 				if (this.cdp.getX() > 326) {
 					shooter.adjustRotation(-Configuration.autorotationSpeed);
@@ -66,7 +75,7 @@ public class ShooterSteeringThread extends Thread {
 				Output.say("[SST] " + isRunning);
 			}
 		}
-		if (this.isCentered()) {
+		if (this.isCentered() || die) {
 			cdp = null;
 			needsUpdate = true;
 			isRunning = false;
