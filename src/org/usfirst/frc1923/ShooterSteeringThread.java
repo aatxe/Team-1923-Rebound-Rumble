@@ -56,7 +56,7 @@ public class ShooterSteeringThread extends Thread {
 	}
 
 	public void run() {
-		while ((!this.isCentered()) && !die) {
+		while ((!this.isCentered()) && !die && shooter.getAutosteering()) {
 			if (!this.needsUpdate()) {
 				if (this.cdp.getX() > 326) {
 					shooter.adjustRotation(-Configuration.autorotationSpeed);
@@ -75,7 +75,7 @@ public class ShooterSteeringThread extends Thread {
 				Output.say("[SST] " + isRunning);
 			}
 		}
-		if (this.isCentered() || die) {
+		if (this.isCentered() || die || !shooter.getAutosteering()) {
 			cdp = null;
 			needsUpdate = true;
 			isRunning = false;
