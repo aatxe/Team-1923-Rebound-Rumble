@@ -7,6 +7,7 @@ public class HybridDriver {
 	private Shooter shooter;
 	private Conveyor conveyor;
 	private CameraController cameraController;
+	private ShooterSteeringThread sst;
 
 	private DriveGearbox driveGearbox;
 	private Relay bridgeKnockerDowner;
@@ -19,37 +20,46 @@ public class HybridDriver {
 		this.driveGearbox = new DriveGearbox(Configuration.driveGears, components);
 		this.bridgeKnockerDowner = components.bridgeKnockerDowner;
 		components.drive.setSafetyEnabled(false);
+		this.sst = new ShooterSteeringThread(shooter);
 	}
 
 	private void prepareShooter() {
-		// conveyor shit
-		// does opposite of drop balls (ie: takes them to the shooter) ps: so
-		// that they can be shot
+		conveyor.runElevator(Relay.Value.kForward);
 	}
 
-	private void aimShooter() { // self explanatory
-		// Do when tracker-camera thing is made
-		// Could also change power if needed
+	private void aimShooter() {
+		try {
+			sst = new ShooterSteeringThread(shooter);
+			cameraController.update();
+			sst.update(cameraController.getLowestBasket());
+			sst.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-	private void shoot() { // moar self explanatory
-		// need to change zero later, it would be bad if we tried shooting at 0
-		// power, the ball wouldn't go anywhere EX: 0.4,0.5,0.6,0.7,0.3
-		shooter.run(Configuration.shooterGears[0]);
+	private void shoot() { 
+		shooter.run(CameraDataCalculator.getForce(sst.getDataPacket()));
 	}
 
 	private void GetInPositionToGetBalls() {
-		// from bridge, not ball hole (saves
-		// time, time is money, saves money,
-		// budget problem fixed!)
-
-		driveTrain.drive(0, 0); // set up later, need position of robot relative
-								// to more balls
-		// use the sensors to judge position, and then go/stop/turn/pick up
-		// balls
+//		driveTrain.drive(5, 5); 
+//		//Knocker-Downer Down
+//		bridgeKnockerDowner.set(Relay.Value.kForward);
+//		//Intake on
+//		conveyor.startIntake(-Configuration.intakeSpeed);
+//		//Intake off
+//		conveyor.stopIntake();
+//		//Drive to Key
+//		
+//		//Elevator on
+//		this.prepareShooter();
+//		//Aim and shoot
+//		this.aimShooter();
+//		this.shoot();
 	}
 
 	public boolean isShooterRunning() {
-		return false;
+		return shooter.isShooterRunning();
 	}
 }

@@ -34,7 +34,7 @@ public class ShooterSteeringThread extends Thread {
 	}
 
 	public boolean isCentered() {
-		return (!(this.cdp.getX() > 326) && !(this.cdp.getX() < 316));
+		return (!(this.cdp.getX() > 323) && !(this.cdp.getX() < 317));
 	}
 
 	public void update(CameraDataPacket cdp) {
@@ -50,16 +50,16 @@ public class ShooterSteeringThread extends Thread {
 		while ((!this.isCentered())) {
 			if (!this.needsUpdate()) {
 				if (this.cdp.getX() > 326) {
-					shooter.adjustRotation(-0.15);
+					shooter.adjustRotation(-Configuration.autorotationSpeed);
 					needsUpdate = true;
 				} else if (this.cdp.getX() < 316) {
-					shooter.adjustRotation(0.15);
+					shooter.adjustRotation(Configuration.autorotationSpeed);
 					needsUpdate = true;
 				} else {
 					break;
 				}
 				try {
-					Thread.sleep(200);
+					Thread.sleep(150);
 				} catch (InterruptedException e) {
 				}
 				shooter.adjustRotation(0);
