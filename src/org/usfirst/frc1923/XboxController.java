@@ -17,11 +17,6 @@ public class XboxController {
 		public static final int kBack_val = 7;
 		public static final int kLeftClick_val = 9;
 		public static final int kRightClick_val = 10;
-		public static final int kDPadUp_val = 11;
-		public static final int kDPadDown_val = 12;
-		public static final int kDPadLeft_val = 13;
-		public static final int kDPadRight_val = 14;
-		public static final int kXboxButton_val = 15;
 		public static final Button A = new Button(kA_val);
 		public static final Button B = new Button(kB_val);
 		public static final Button X = new Button(kX_val);
@@ -32,11 +27,6 @@ public class XboxController {
 		public static final Button Back = new Button(kBack_val);
 		public static final Button LeftClick = new Button(kLeftClick_val);
 		public static final Button RightClick = new Button(kRightClick_val);
-		public static final Button DPadUp = new Button(kDPadUp_val);
-		public static final Button DPadDown = new Button(kDPadDown_val);
-		public static final Button DPadLeft = new Button(kDPadLeft_val);
-		public static final Button DPadRight = new Button(kDPadRight_val);
-		public static final Button XboxButton = new Button(kXboxButton_val);
 
 		private Button(int value) {
 			this.value = value;
@@ -74,5 +64,9 @@ public class XboxController {
 
 	public double getTriggerAxis() {
 		return xboxController.getRawAxis(3);
+	}
+	
+	public double getDPad() {
+		return xboxController.getRawAxis(6);
 	}
 }

@@ -7,7 +7,7 @@ public class HybridDriver {
 	private Shooter shooter;
 	private Conveyor conveyor;
 	private CameraController cameraController;
-	
+
 	private DriveGearbox driveGearbox;
 	private Relay bridgeKnockerDowner;
 
@@ -48,7 +48,7 @@ public class HybridDriver {
 		// use the sensors to judge position, and then go/stop/turn/pick up
 		// balls
 	}
-	
+
 	public boolean isShooterRunning() {
 		return false;
 	}

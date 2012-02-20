@@ -24,7 +24,7 @@ public class Shooter {
 	public void adjustHood(double value) {
 		hood.set(value);
 	}
-	
+
 	public void adjustRotation(double value) {
 		rotaryControl.set(value);
 	}

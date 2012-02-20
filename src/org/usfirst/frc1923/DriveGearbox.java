@@ -23,11 +23,11 @@ public class DriveGearbox {
 		this.gears = gears;
 		this.drive = components.drive;
 	}
-	
+
 	public double getSpeed() {
 		return gears[gear];
 	}
-	
+
 	public int getGear() {
 		return gear;
 	}

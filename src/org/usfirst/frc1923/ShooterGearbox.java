@@ -1,11 +1,11 @@
 package org.usfirst.frc1923;
 
 public class ShooterGearbox {
-	private int gear = 0;
-	private int oldGear = 0;
+	private int gear = 40;
 	private double[] gears = {};
 	private boolean justGearedUp = false;
 	private boolean justGearedDown = false;
+	private boolean justSetGear = false;
 
 	public ShooterGearbox(double[] gears, Components components) {
 		this.gears = gears;
@@ -17,36 +17,28 @@ public class ShooterGearbox {
 		for (int i = 0; i < length; i++) {
 			gears[i] = (start + (i * increment)) / 100;
 		}
+		Configuration.shooterGears = gears;
 		this.gears = gears;
 	}
 
 	public double getSpeed() {
 		return gears[gear];
 	}
-	
+
 	public int getGear() {
 		return gear;
 	}
-	
-	public double getPreviousSpeed() {
-		return gears[oldGear];
-	}
-	
-	public int getPreviousGear() {
-		return oldGear;
-	}
-	
+
 	public void setGear(int gear) {
 		if (this.gear != gear && gear < (gears.length - 1) && gear > 0) {
-			this.oldGear = this.gear;
 			this.gear = gear;
 			Output.say("[Shooter] Gear changed to " + gear + ".");
+			justSetGear = true;
 		}
 	}
 
 	public void gearDown() {
 		if (gear > 0) {
-			oldGear = gear;
 			--gear;
 			Output.say("[Shooter] Geared down to " + gear + ".");
 			justGearedDown = true;
@@ -55,7 +47,6 @@ public class ShooterGearbox {
 
 	public void gearUp() {
 		if (gear < (gears.length - 1)) {
-			oldGear = gear;
 			++gear;
 			Output.say("[Shooter] Geared up to " + gear + ".");
 			justGearedUp = true;
@@ -69,9 +60,14 @@ public class ShooterGearbox {
 	public boolean didJustGearDown() {
 		return this.justGearedDown;
 	}
+	
+	public boolean wasGearJustSet() {
+		return this.justSetGear;
+	}
 
 	public void resetGearControls() {
 		justGearedDown = false;
 		justGearedUp = false;
+		justSetGear = false;
 	}
 }

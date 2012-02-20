@@ -6,19 +6,19 @@ public class DriverStation extends SmartDashboard {
 	public void updateKey(String key, Boolean value) {
 		super.putBoolean(key, value.booleanValue());
 	}
-	
+
 	public void updateKey(String key, Double value) {
 		super.putDouble(key, value.doubleValue());
 	}
-	
+
 	public void updateKey(String key, Integer value) {
 		super.putInt(key, value.intValue());
 	}
-	
+
 	public void updateKey(String key, String value) {
 		super.putString(key, value);
 	}
-	
+
 	public void updateScreen(Object[] data) {
 		int shooterGear = ((Integer) data[3]).intValue();
 		int drivingGear = ((Integer) data[4]).intValue();
@@ -29,5 +29,7 @@ public class DriverStation extends SmartDashboard {
 		this.updateKey("Shooter Speed", new Double(Configuration.shooterGears[shooterGear]));
 		this.updateKey("Driving Gear", (Integer) data[4]);
 		this.updateKey("Driving Speed", new Double(Configuration.driveGears[drivingGear]));
+		this.updateKey("Left Limit Switch", (Boolean) data[5]);
+		this.updateKey("Right Limit Switch", (Boolean) data[6]);
 	}
 }

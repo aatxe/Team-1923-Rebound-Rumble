@@ -2,42 +2,60 @@ package org.usfirst.frc1923;
 
 import edu.wpi.first.wpilibj.camera.AxisCamera;
 
-
 public class CameraController {
 	private AxisCamera camera;
-	private Camera imageController;
-
-	public CameraController(){
+	private TargetFinder chercheur = new TargetFinder();
+	private TargetPrioritizer prioritizer = new TargetPrioritizer();
+	
+	public CameraController(Components components) {
+		camera = components.camera;
+	}
+	
+	public void update() {
 		try {
-			camera = AxisCamera.getInstance();
-			imageController = new Camera(camera.getImage());
+			chercheur.update(camera.getImage());
+			prioritizer.update(chercheur.getTargets());
 		} catch (Exception e) {}
 	}
 	
-	public CameraController(Components components) {
-		try {
-			// camera = components.camera;
-			camera = null;
-			imageController = new Camera(camera.getImage());
-		} catch (Exception e) {}
-	}
-
-	public double getForce() {
-		try {
-			imageController.update(camera.getImage());
-			return imageController.getForce();
-		} catch (Exception e) {
-			return -1;
+	public CameraDataPacket getHighestBasket() {
+		CameraDataPacket[] targets = prioritizer.getTargets();
+		for (int i = 0; i < targets.length - 1; i++) {
+			if (targets[i].getBasketHeight() == 3) {
+				return targets[i];
+			}
 		}
+		return null;
 	}
-
-	public double getAngle() {
-		try {
-			imageController.update(camera.getImage());
-			return imageController.getAngle();
-		} catch (Exception e) {
-			return -1;
+	
+	public CameraDataPacket getMiddleBasket(char position) {
+		CameraDataPacket[] targets = prioritizer.getTargets();
+		CameraDataPacket bhavish = new CameraDataPacket(320, 200);
+		if (targets.length == 2) {
+			bhavish = targets[1];
+		} else if (targets.length == 4) {
+			if (position == 'l') {
+				bhavish = targets[1];
+			} else if (position == 'r') {
+				bhavish = targets[2];
+			}
+		} else if (targets.length == 3) {
+			if (targets[2].getBasketHeight() == 2) {
+				if (position == 'l') {
+					bhavish = targets[1];
+				} else if (position == 'r') {
+					bhavish = targets[2];
+				}
+			} else {
+				bhavish = targets[1];
+			}
 		}
+		return bhavish;
 	}
-
+	
+	public CameraDataPacket getLowestBasket() {
+		prioritizer.update(chercheur.getTargets());
+		CameraDataPacket[] targets = prioritizer.getTargets();
+		return targets[0];
+	}
 }

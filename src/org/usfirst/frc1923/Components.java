@@ -1,19 +1,19 @@
 package org.usfirst.frc1923;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj.camera.AxisCamera;
-import edu.wpi.first.wpilibj.DigitalInput;
 
 public class Components {
 	public Watchdog kaynine;
-	// public final AxisCamera camera = AxisCamera.getInstance();
+	public final AxisCamera camera = AxisCamera.getInstance("10.19.23.11");
 	public final RobotDrive drive = new RobotDrive(2, 1, 4, 3);
 	public final Jaguar shooter = new Jaguar(5);
-	public final Jaguar hood = new Jaguar(6);
-	public final Jaguar rotaryControl = new Jaguar(8);
+	public final Jaguar hood = new Jaguar(8);
+	public final Jaguar rotaryControl = new Jaguar(6);
 	public final DigitalInput leftShooterLimit = new DigitalInput(1);
 	public final DigitalInput rightShooterLimit = new DigitalInput(2);
 	public final Jaguar pickupConveyorLeft = new Jaguar(9);

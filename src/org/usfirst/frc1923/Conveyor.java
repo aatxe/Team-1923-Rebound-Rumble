@@ -10,7 +10,7 @@ public class Conveyor {
 
 	private boolean intakeRunning = false;
 	private boolean elevatorRunning = false;
-	
+
 	public Conveyor(Components components) {
 		pickupConveyorLeft = components.pickupConveyorLeft;
 		pickupConveyorRight = components.pickupConveyorRight;
@@ -38,11 +38,11 @@ public class Conveyor {
 		middleConveyor.set(Relay.Value.kOff);
 		elevatorRunning = false;
 	}
-	
+
 	public boolean isIntakeRunning() {
 		return intakeRunning;
 	}
-	
+
 	public boolean isElevatorRunning() {
 		return elevatorRunning;
 	}
