@@ -65,7 +65,7 @@ public class XboxController {
 	public double getTriggerAxis() {
 		return xboxController.getRawAxis(3);
 	}
-	
+
 	public double getDPad() {
 		return xboxController.getRawAxis(6);
 	}

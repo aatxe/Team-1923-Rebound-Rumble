@@ -37,7 +37,7 @@ public class HumanDriver {
 		this.bridgeKnockerDowner = components.bridgeKnockerDowner;
 		this.leftShooterLimit = components.leftShooterLimit;
 		this.rightShooterLimit = components.rightShooterLimit;
-		this.sst = new ShooterSteeringThread(shooter);
+		this.sst = new ShooterSteeringThread(shooter, cameraController);
 		components.drive.setSafetyEnabled(false);
 	}
 
@@ -61,11 +61,11 @@ public class HumanDriver {
 
 	public void handlePassiveDriving() {
 		if (Configuration.experimentalDriving) {
-			/*if (rightDriveStick.getRawButton(4)) {
-				driveTrain.drive(0.75, -0.75);
-			} else if (rightDriveStick.getRawButton(5)) {
-				driveTrain.drive(-0.75, 0.75);
-			}*/
+			/*
+			 * if (rightDriveStick.getRawButton(4)) { driveTrain.drive(0.75,
+			 * -0.75); } else if (rightDriveStick.getRawButton(5)) {
+			 * driveTrain.drive(-0.75, 0.75); }
+			 */
 		}
 		if (Configuration.gearShifter) {
 			if (leftDriveStick.getButton(Joystick.ButtonType.kTrigger) && !rightDriveStick.getButton(Joystick.ButtonType.kTrigger) && !driveGearbox.didJustGearDown()) {
@@ -85,14 +85,20 @@ public class HumanDriver {
 	}
 
 	public void handleActiveOperating() {
-		if (sst.isRunning() && sst.needsUpdate()) {
-			sst.interrupt();
-			sst.update(cameraController.getLowestBasket());
-			sst.start();
+		if (sst.needsUpdate()) {
+			try {
+				sst.update(cameraController.getLowestBasket());
+			} catch (Exception e) {}
 		}
 		if (operatorController.getButton(XboxController.Button.LeftClick) && !sst.isRunning()) {
-			sst.update(cameraController.getLowestBasket());
-			sst.start();
+			if(!sst.getNeedsToRun()) {
+				sst.setNeedsToRun(true);
+			}
+			try {
+				cameraController.update();
+				sst.update(cameraController.getLowestBasket());
+				sst.start();
+			} catch (Exception e) {}
 		}
 		if (operatorController.getButton(XboxController.Button.RightClick) && !sst.isRunning()) {
 			shooter.run(CameraDataCalculator.getForce(sst.getDataPacket()));
@@ -124,10 +130,10 @@ public class HumanDriver {
 			shooter.stop();
 			shooterRunning = false;
 		}
-		if (operatorController.getAxis(1, 2) > 0.5 && leftShooterLimit.get()) {
-			shooter.adjustRotation(0.20);
-		} else if (operatorController.getAxis(1, 2) < -0.5 && rightShooterLimit.get()) {
+		if (operatorController.getAxis(1, 2) > 0.5 && rightShooterLimit.get()) {
 			shooter.adjustRotation(-0.20);
+		} else if (operatorController.getAxis(1, 2) < -0.5 && leftShooterLimit.get()) {
+			shooter.adjustRotation(0.20);
 		} else {
 			shooter.adjustRotation(0);
 		}

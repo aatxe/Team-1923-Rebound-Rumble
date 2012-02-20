@@ -56,8 +56,9 @@ public class Team1923Robot extends IterativeRobot {
 			public void run() {
 				cameraController.update();
 				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {}
+					Thread.sleep(250);
+				} catch (InterruptedException e) {
+				}
 			}
 		}).start();
 		cameraController.update();

@@ -60,7 +60,7 @@ public class ShooterGearbox {
 	public boolean didJustGearDown() {
 		return this.justGearedDown;
 	}
-	
+
 	public boolean wasGearJustSet() {
 		return this.justSetGear;
 	}

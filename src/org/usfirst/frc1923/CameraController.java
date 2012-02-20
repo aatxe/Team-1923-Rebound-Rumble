@@ -1,23 +1,26 @@
 package org.usfirst.frc1923;
 
 import edu.wpi.first.wpilibj.camera.AxisCamera;
+import edu.wpi.first.wpilibj.image.ColorImage;
 
 public class CameraController {
 	private AxisCamera camera;
 	private TargetFinder chercheur = new TargetFinder();
 	private TargetPrioritizer prioritizer = new TargetPrioritizer();
-	
+
 	public CameraController(Components components) {
 		camera = components.camera;
 	}
-	
+
 	public void update() {
 		try {
-			chercheur.update(camera.getImage());
+			ColorImage image = camera.getImage();
+			chercheur.update(image);
 			prioritizer.update(chercheur.getTargets());
+			image.free();
 		} catch (Exception e) {}
 	}
-	
+
 	public CameraDataPacket getHighestBasket() {
 		CameraDataPacket[] targets = prioritizer.getTargets();
 		for (int i = 0; i < targets.length - 1; i++) {
@@ -27,7 +30,7 @@ public class CameraController {
 		}
 		return null;
 	}
-	
+
 	public CameraDataPacket getMiddleBasket(char position) {
 		CameraDataPacket[] targets = prioritizer.getTargets();
 		CameraDataPacket bhavish = new CameraDataPacket(320, 200);
@@ -52,9 +55,9 @@ public class CameraController {
 		}
 		return bhavish;
 	}
-	
+
 	public CameraDataPacket getLowestBasket() {
-		prioritizer.update(chercheur.getTargets());
+		this.update();
 		CameraDataPacket[] targets = prioritizer.getTargets();
 		return targets[0];
 	}

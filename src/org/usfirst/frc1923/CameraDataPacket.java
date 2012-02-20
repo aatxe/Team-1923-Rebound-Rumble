@@ -25,7 +25,7 @@ class CameraDataPacket {
 	public void setBasketHeight(int basketHeight) {
 		this.basketHeight = basketHeight;
 	}
-	
+
 	public int getX() {
 		return x;
 	}
@@ -33,15 +33,15 @@ class CameraDataPacket {
 	public int getY() {
 		return y;
 	}
-	
+
 	public int getBasketHeight() {
 		return basketHeight;
 	}
-	
+
 	public String getCoordinates() {
 		return "(" + x + "," + y + ")";
 	}
-	
+
 	public String toString() {
 		return "(" + x + "," + y + ")";
 	}
