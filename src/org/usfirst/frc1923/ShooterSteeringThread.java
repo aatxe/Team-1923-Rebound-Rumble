@@ -3,6 +3,9 @@ package org.usfirst.frc1923;
 public class ShooterSteeringThread extends Thread {
 	private Shooter shooter;
 	private CameraDataPacket cdp;
+	private CameraDataPacket ocdp;
+	private double distance;
+	private int height;
 	private boolean needsUpdate;
 	private boolean isRunning;
 	private boolean justRan;
@@ -33,7 +36,7 @@ public class ShooterSteeringThread extends Thread {
 	public boolean justRan() {
 		return justRan;
 	}
-	
+
 	public boolean didThreadDie() {
 		return die;
 	}
@@ -41,7 +44,7 @@ public class ShooterSteeringThread extends Thread {
 	public void die() {
 		die = true;
 	}
-	
+
 	public boolean isCentered() {
 		return (!(this.cdp.getX() > 323) && !(this.cdp.getX() < 317));
 	}
@@ -57,6 +60,8 @@ public class ShooterSteeringThread extends Thread {
 
 	public void run() {
 		while ((!this.isCentered()) && !die && shooter.getAutosteering()) {
+			distance = CameraDataCalculator.getDistance(cdp);
+			height = cdp.getBasketHeight();
 			if (!this.needsUpdate()) {
 				if (this.cdp.getX() > 326) {
 					shooter.adjustRotation(-Configuration.autorotationSpeed);
@@ -76,6 +81,9 @@ public class ShooterSteeringThread extends Thread {
 			}
 		}
 		if (this.isCentered() || die || !shooter.getAutosteering()) {
+			distance = CameraDataCalculator.getDistance(cdp);
+			height = cdp.getBasketHeight();
+			ocdp = cdp;
 			cdp = null;
 			needsUpdate = true;
 			isRunning = false;
@@ -83,9 +91,21 @@ public class ShooterSteeringThread extends Thread {
 		}
 		Output.say("[SST] " + isRunning);
 	}
+	
+	public int getHeight() {
+		return height;
+	}
+	
+	public double getDistance() {
+		return distance;
+	}
 
 	public CameraDataPacket getDataPacket() {
 		return cdp;
+	}
+	
+	public CameraDataPacket getFinalDataPacket() {
+		return ocdp;
 	}
 
 	public void start() {

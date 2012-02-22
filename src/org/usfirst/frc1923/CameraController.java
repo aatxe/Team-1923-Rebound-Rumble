@@ -34,7 +34,7 @@ public class CameraController {
 
 	public CameraDataPacket getMiddleBasket(char position) {
 		CameraDataPacket[] targets = prioritizer.getTargets();
-		CameraDataPacket bhavish = new CameraDataPacket(320, 200);
+		CameraDataPacket bhavish = new CameraDataPacket(320, 240);
 		if (targets.length == 2) {
 			bhavish = targets[1];
 		} else if (targets.length == 4) {
@@ -59,10 +59,6 @@ public class CameraController {
 
 	public CameraDataPacket getLowestBasket() {
 		this.update();
-		CameraDataPacket[] targets = new CameraDataPacket[prioritizer.getTargets().length];
-		for (int i = 0; i < prioritizer.getTargets().length; i++) {
-			targets[i] = prioritizer.getTargets()[i];
-		}
-		return targets[0];
+		return prioritizer.getTargets()[prioritizer.getTargets().length - 1];
 	}
 }

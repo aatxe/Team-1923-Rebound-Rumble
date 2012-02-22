@@ -8,11 +8,12 @@ public class HybridDriver {
 	private Conveyor conveyor;
 	private CameraController cameraController;
 	private ShooterSteeringThread sst;
+	private Configuration config;
 
 	private DriveGearbox driveGearbox;
 	private Relay bridgeKnockerDowner;
 
-	public HybridDriver(DriveTrain driveTrain, Shooter shooter, Conveyor conveyor, CameraController cameraController, Components components) {
+	public HybridDriver(DriveTrain driveTrain, Configuration config, Shooter shooter, Conveyor conveyor, CameraController cameraController, Components components) {
 		this.driveTrain = driveTrain;
 		this.shooter = shooter;
 		this.conveyor = conveyor;
@@ -21,13 +22,18 @@ public class HybridDriver {
 		this.bridgeKnockerDowner = components.bridgeKnockerDowner;
 		components.drive.setSafetyEnabled(false);
 		this.sst = new ShooterSteeringThread(shooter);
+		this.config = config;
 	}
 
-	private void prepareShooter() {
-		conveyor.runElevator(Relay.Value.kForward);
+	public void prepareShooter() {
+		//conveyor.startIntake(config.intakeSpeed);
+		//if (sst.isCentered()) {
+			// shooter.run(CameraDataCalculator.getForce(sst.getDataPacket()));
+			shooter.run(0.71);
+		//}
 	}
 
-	private void aimShooter() {
+	public void aimShooter() {
 		try {
 			sst = new ShooterSteeringThread(shooter);
 			cameraController.update();
@@ -38,28 +44,36 @@ public class HybridDriver {
 		}
 	}
 
-	private void shoot() { 
-		shooter.run(CameraDataCalculator.getForce(sst.getDataPacket()));
+	public void shoot() {
+		conveyor.runElevator(Relay.Value.kForward);
+	}
+	
+	public void hold() {
+		conveyor.runElevator(Relay.Value.kOff);
 	}
 
-	private void GetInPositionToGetBalls() {
-//		driveTrain.drive(5, 5); 
-//		//Knocker-Downer Down
-//		bridgeKnockerDowner.set(Relay.Value.kForward);
-//		//Intake on
-//		conveyor.startIntake(-Configuration.intakeSpeed);
-//		//Intake off
-//		conveyor.stopIntake();
-//		//Drive to Key
-//		
-//		//Elevator on
-//		this.prepareShooter();
-//		//Aim and shoot
-//		this.aimShooter();
-//		this.shoot();
+	public void cleanUp() {
+		conveyor.stopElevator();
+		conveyor.stopIntake();
+		shooter.stop();
+	}
+
+	public void getInPositionToGetBalls() {
+		// from bridge, not ball hole (saves
+		// time, time is money, saves money,
+		// budget problem fixed!)
+
+		driveTrain.drive(5, 5); // set up later, need position of robot relative
+								// to more balls
+		// use the sensors to judge position, and then go/stop/turn/pick up
+		// balls
 	}
 
 	public boolean isShooterRunning() {
 		return shooter.isShooterRunning();
+	}
+
+	public ShooterSteeringThread getSST() {
+		return sst;
 	}
 }

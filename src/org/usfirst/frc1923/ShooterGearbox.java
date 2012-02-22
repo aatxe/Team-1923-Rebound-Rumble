@@ -22,7 +22,7 @@ public class ShooterGearbox {
 	}
 
 	public double getSpeed() {
-		return gears[gear];
+		return -gears[gear];
 	}
 
 	public int getGear() {

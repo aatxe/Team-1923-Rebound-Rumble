@@ -105,7 +105,8 @@ public class HumanDriver {
 			}
 		}
 		if (operatorController.getButton(XboxController.Button.RightClick) && !sst.isRunning()) {
-			shooter.run(CameraDataCalculator.getForce(sst.getDataPacket()));
+			Output.say("[AutoShoot] " + CameraDataCalculator.getForce(sst.getDistance(), sst.getHeight()) / 100000000);
+			shooter.run(CameraDataCalculator.getForce(sst.getDistance(), sst.getHeight()) / 100000000);
 		}
 		if (rightDriveStick.getRawButton(5)) {
 			shooter.run(shooterGearbox.getSpeed());
@@ -117,7 +118,7 @@ public class HumanDriver {
 		if (operatorController.getButton(XboxController.Button.A)) {
 			conveyor.startIntake(-Configuration.intakeSpeed);
 		} else if (operatorController.getButton(XboxController.Button.B)) {
-			conveyor.startIntake(Configuration.intakeSpeed);
+			conveyor.startIntake(Configuration.intakeSpeed / 2);
 		} else if (operatorController.getButton(XboxController.Button.Y)) {
 			conveyor.runElevator(Relay.Value.kReverse);
 		} else if (operatorController.getButton(XboxController.Button.X)) {
@@ -135,9 +136,9 @@ public class HumanDriver {
 			shooterRunning = false;
 		}
 		if (operatorController.getAxis(1, 2) > 0.5 && rightShooterLimit.get()) {
-			shooter.adjustRotation(-0.20);
+			shooter.adjustRotation(-Configuration.autorotationSpeed - 0.05);
 		} else if (operatorController.getAxis(1, 2) < -0.5 && leftShooterLimit.get()) {
-			shooter.adjustRotation(0.20);
+			shooter.adjustRotation(Configuration.autorotationSpeed + 0.05);
 		} else {
 			shooter.adjustRotation(0);
 		}
@@ -183,5 +184,9 @@ public class HumanDriver {
 
 	public boolean isShooterRunning() {
 		return shooterRunning;
+	}
+
+	public ShooterSteeringThread getSST() {
+		return sst;
 	}
 }

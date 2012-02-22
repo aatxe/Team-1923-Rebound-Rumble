@@ -31,5 +31,7 @@ public class DriverStation extends SmartDashboard {
 		this.updateKey("Driving Speed", new Double(Configuration.driveGears[drivingGear]));
 		this.updateKey("Left Limit Switch", (Boolean) data[5]);
 		this.updateKey("Right Limit Switch", (Boolean) data[6]);
+		this.updateKey("Teleop SST Distance", (Double) data[7]);
+		this.updateKey("Hybrid SST Distance", (Double) data[8]);
 	}
 }

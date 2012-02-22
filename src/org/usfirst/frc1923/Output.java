@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.Timer;
 public class Output {
 	public static void say(String statement) {
 		System.out.println("[MidKnight Inventors] [" + now() + "] " + statement);
-		Timer.delay(0.01);
+		Timer.delay(0.03);
 	}
 
 	public static String now() {

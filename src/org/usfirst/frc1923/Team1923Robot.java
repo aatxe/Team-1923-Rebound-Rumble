@@ -1,6 +1,7 @@
 package org.usfirst.frc1923;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.RobotDrive;
 
 public class Team1923Robot extends IterativeRobot {
 	private Components components = new Components();
@@ -10,9 +11,10 @@ public class Team1923Robot extends IterativeRobot {
 	private DriveTrain driveTrain = new DriveTrain(components);
 	private DriverStation driverStation = new DriverStation();
 	private Shooter shooter = new Shooter(components);
+	private Configuration config = new Configuration();
 
 	private HumanDriver humanDriver = new HumanDriver(driveTrain, shooter, conveyor, cameraController, components);
-	private HybridDriver hybridDriver = new HybridDriver(driveTrain, shooter, conveyor, cameraController, components);
+	private HybridDriver hybridDriver = new HybridDriver(driveTrain, config ,shooter, conveyor, cameraController, components);
 
 	public void robotInit() {
 		Output.say("Robot Initialized.");
@@ -39,6 +41,32 @@ public class Team1923Robot extends IterativeRobot {
 		Output.say("Robot Enabled:: Hybrid Mode Initialized.");
 		driverStation.updateScreen(this.getDriverStationData());
 		cameraController.update();
+		new Thread(new Runnable() {
+			public void run() {
+				hybridDriver.aimShooter();
+				hybridDriver.prepareShooter();
+				try {
+					Thread.sleep(5000);
+				} catch (InterruptedException e) {
+				}
+				hybridDriver.shoot();
+				try {
+					Thread.sleep(2600);
+				} catch (InterruptedException e) {
+				}
+				hybridDriver.hold();
+				try {
+					Thread.sleep(4000);
+				} catch (InterruptedException e) {
+				}
+				hybridDriver.shoot();
+				try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+				}
+				hybridDriver.cleanUp();
+			}
+		}).start();
 	}
 
 	public void autonomousPeriodic() {
@@ -52,15 +80,6 @@ public class Team1923Robot extends IterativeRobot {
 	public void teleopInit() {
 		Output.say("Robot Enabled:: Tele-Op Mode Initialized.");
 		driverStation.updateScreen(this.getDriverStationData());
-		new Thread(new Runnable() {
-			public void run() {
-				cameraController.update();
-				try {
-					Thread.sleep(250);
-				} catch (InterruptedException e) {
-				}
-			}
-		}).start();
 		cameraController.update();
 	}
 
@@ -76,7 +95,7 @@ public class Team1923Robot extends IterativeRobot {
 	}
 
 	public Object[] getDriverStationData() {
-		Object[] data = new Object[7];
+		Object[] data = new Object[9];
 		data[0] = new Boolean(conveyor.isIntakeRunning());
 		data[1] = new Boolean(conveyor.isElevatorRunning());
 		data[2] = new Boolean((humanDriver.isShooterRunning() || hybridDriver.isShooterRunning()));
@@ -84,6 +103,8 @@ public class Team1923Robot extends IterativeRobot {
 		data[4] = new Integer(humanDriver.getDriveGear());
 		data[5] = new Boolean(components.leftShooterLimit.get());
 		data[6] = new Boolean(components.rightShooterLimit.get());
+		data[7] = new Double(CameraDataCalculator.getDistance(humanDriver.getSST().getDataPacket()));
+		data[8] = new Double(CameraDataCalculator.getDistance(hybridDriver.getSST().getDataPacket()));
 		return data;
 	}
 }

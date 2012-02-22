@@ -18,7 +18,7 @@ public class Shooter {
 	}
 
 	public void run(double value) {
-		shooter.set(value);
+		shooter.set(-Math.abs(value));
 		shooterRunning = true;
 	}
 
@@ -33,15 +33,15 @@ public class Shooter {
 	public void adjustRotation(double value) {
 		rotaryControl.set(value);
 	}
-	
+
 	public boolean isShooterRunning() {
 		return shooterRunning;
 	}
-	
+
 	public boolean getAutosteering() {
 		return autosteering;
 	}
-	
+
 	public void setAutosteering(boolean autosteering) {
 		this.autosteering = autosteering;
 	}
