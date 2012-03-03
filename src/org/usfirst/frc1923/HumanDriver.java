@@ -147,7 +147,7 @@ public class HumanDriver {
 		}
 		
 		if (operatorController.getButton(XboxController.Button.Back)) {
-			bridgeKnockerDowner.set(0.60);
+			bridgeKnockerDowner.set(1.0);
 		} else if (operatorController.getButton(XboxController.Button.Start)) {
 			bridgeKnockerDowner.set(-1.0);
 		} else {

@@ -73,7 +73,6 @@ public class Team1923Robot extends IterativeRobot {
 					Thread.sleep(3000);
 				} catch (InterruptedException e) {
 				}
-				
 				hybridDriver.cleanUp();
 			}
 		}).start();

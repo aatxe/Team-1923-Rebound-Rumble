@@ -31,7 +31,7 @@ public class HybridDriver {
 		//if (sst.isCentered()) {
 		// shooter.run(CameraDataCalculator.getForce(sst.getDataPacket())); // automatic
 		// shooter.run(0.55); // middle hoops front-of-line
-		shooter.run(0.69); // top hoops front-of-line
+		shooter.run(0.66); // top hoops front-of-line
 		// shooter.run(0.71); // top hoops foul-line
 		// shooter.run(0.83); // top hoops back-of-key (requires hood up)
 		//}
