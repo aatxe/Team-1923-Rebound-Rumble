@@ -35,7 +35,7 @@ public class DriveGearbox {
 	public void setGear(int gear) {
 		if (this.gear != gear && gear < (gears.length - 1) && gear > 0) {
 			this.gear = gear;
-			Output.say("[Drive] Gear changed to " + gear + ".");
+			Output.queue("[Drive] Gear changed to " + gear + ".");
 			drive.setMaxOutput(gears[gear]);
 		}
 	}
@@ -43,7 +43,7 @@ public class DriveGearbox {
 	public void gearDown() {
 		if (gear > 0) {
 			--gear;
-			Output.say("[Drive] Geared down to " + gear + ".");
+			Output.queue("[Drive] Geared down to " + gear + ".");
 			drive.setMaxOutput(gears[gear]);
 			justGearedDown = true;
 		}
@@ -52,7 +52,7 @@ public class DriveGearbox {
 	public void gearUp() {
 		if (gear < (gears.length - 1)) {
 			++gear;
-			Output.say("[Drive] Geared up to " + gear + ".");
+			Output.queue("[Drive] Geared up to " + gear + ".");
 			drive.setMaxOutput(gears[gear]);
 			justGearedUp = true;
 		}

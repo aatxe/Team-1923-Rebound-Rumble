@@ -1,17 +1,18 @@
 package org.usfirst.frc1923;
 
 import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.Jaguar;
 
 public class HybridDriver {
 	private DriveTrain driveTrain;
 	private Shooter shooter;
 	private Conveyor conveyor;
 	private CameraController cameraController;
+	private XboxController operatorController;
 	private ShooterSteeringThread sst;
-	private Configuration config;
 
 	private DriveGearbox driveGearbox;
-	private Relay bridgeKnockerDowner;
+	private Jaguar bridgeKnockerDowner;
 
 	public HybridDriver(DriveTrain driveTrain, Configuration config, Shooter shooter, Conveyor conveyor, CameraController cameraController, Components components) {
 		this.driveTrain = driveTrain;
@@ -20,22 +21,25 @@ public class HybridDriver {
 		this.cameraController = cameraController;
 		this.driveGearbox = new DriveGearbox(Configuration.driveGears, components);
 		this.bridgeKnockerDowner = components.bridgeKnockerDowner;
+		this.operatorController = components.operatorController;
 		components.drive.setSafetyEnabled(false);
-		this.sst = new ShooterSteeringThread(shooter);
-		this.config = config;
+		this.sst = new ShooterSteeringThread(shooter, operatorController);
 	}
-
+	
 	public void prepareShooter() {
 		//conveyor.startIntake(config.intakeSpeed);
 		//if (sst.isCentered()) {
-			// shooter.run(CameraDataCalculator.getForce(sst.getDataPacket()));
-			shooter.run(0.71);
+		// shooter.run(CameraDataCalculator.getForce(sst.getDataPacket())); // automatic
+		// shooter.run(0.55); // middle hoops front-of-line
+		shooter.run(0.69); // top hoops front-of-line
+		// shooter.run(0.71); // top hoops foul-line
+		// shooter.run(0.83); // top hoops back-of-key (requires hood up)
 		//}
 	}
 
 	public void aimShooter() {
 		try {
-			sst = new ShooterSteeringThread(shooter);
+			sst = new ShooterSteeringThread(shooter, operatorController);
 			cameraController.update();
 			sst.update(cameraController.getLowestBasket());
 			sst.start();
@@ -62,7 +66,6 @@ public class HybridDriver {
 		// from bridge, not ball hole (saves
 		// time, time is money, saves money,
 		// budget problem fixed!)
-
 		driveTrain.drive(5, 5); // set up later, need position of robot relative
 								// to more balls
 		// use the sensors to judge position, and then go/stop/turn/pick up

@@ -1,7 +1,6 @@
 package org.usfirst.frc1923;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.RobotDrive;
 
 public class Team1923Robot extends IterativeRobot {
 	private Components components = new Components();
@@ -17,14 +16,24 @@ public class Team1923Robot extends IterativeRobot {
 	private HybridDriver hybridDriver = new HybridDriver(driveTrain, config ,shooter, conveyor, cameraController, components);
 
 	public void robotInit() {
-		Output.say("Robot Initialized.");
+		Output.queue("Robot Initialized.");
 		components.kaynine = getWatchdog();
 		driverStation.updateScreen(this.getDriverStationData());
 		cameraController.update();
+		new Thread(new Runnable() {
+			public void run() {
+				while (true) {
+					Output.speak();
+					try {
+						Thread.sleep(250);
+					} catch (InterruptedException e) {}
+				}
+			}
+		}).start();
 	}
 
 	public void disabledInit() {
-		Output.say("Robot Disabled.");
+		Output.queue("Robot Disabled.");
 		driverStation.updateScreen(this.getDriverStationData());
 		cameraController.update();
 	}
@@ -38,7 +47,7 @@ public class Team1923Robot extends IterativeRobot {
 	}
 
 	public void autonomousInit() {
-		Output.say("Robot Enabled:: Hybrid Mode Initialized.");
+		Output.queue("Robot Enabled:: Hybrid Mode Initialized.");
 		driverStation.updateScreen(this.getDriverStationData());
 		cameraController.update();
 		new Thread(new Runnable() {
@@ -46,12 +55,12 @@ public class Team1923Robot extends IterativeRobot {
 				hybridDriver.aimShooter();
 				hybridDriver.prepareShooter();
 				try {
-					Thread.sleep(5000);
+					Thread.sleep(4000);
 				} catch (InterruptedException e) {
 				}
 				hybridDriver.shoot();
 				try {
-					Thread.sleep(2600);
+					Thread.sleep(1500);
 				} catch (InterruptedException e) {
 				}
 				hybridDriver.hold();
@@ -64,6 +73,7 @@ public class Team1923Robot extends IterativeRobot {
 					Thread.sleep(3000);
 				} catch (InterruptedException e) {
 				}
+				
 				hybridDriver.cleanUp();
 			}
 		}).start();
@@ -78,7 +88,7 @@ public class Team1923Robot extends IterativeRobot {
 	}
 
 	public void teleopInit() {
-		Output.say("Robot Enabled:: Tele-Op Mode Initialized.");
+		Output.queue("Robot Enabled:: Tele-Op Mode Initialized.");
 		driverStation.updateScreen(this.getDriverStationData());
 		cameraController.update();
 	}

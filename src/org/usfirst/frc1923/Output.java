@@ -2,12 +2,22 @@ package org.usfirst.frc1923;
 
 import java.util.Calendar;
 import java.util.TimeZone;
+import java.util.Vector;
 import edu.wpi.first.wpilibj.Timer;
 
 public class Output {
-	public static void say(String statement) {
+	private static Vector stringQueue;
+	 
+	public static void speak() {
+		//System.out.println("[MidKnight Inventors] [" + now() + "] " + stringQueue.firstElement());
+		//stringQueue.removeElementAt(0);
+		//Timer.delay(0.02);	
+	}
+	
+	public static void queue(String statement) {
+		//stringQueue.addElement(statement);
 		System.out.println("[MidKnight Inventors] [" + now() + "] " + statement);
-		Timer.delay(0.03);
+		Timer.delay(0.02);
 	}
 
 	public static String now() {

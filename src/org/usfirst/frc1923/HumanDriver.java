@@ -1,6 +1,7 @@
 package org.usfirst.frc1923;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Relay;
 
@@ -17,7 +18,7 @@ public class HumanDriver {
 	private DriveGearbox driveGearbox;
 	private ShooterGearbox shooterGearbox;
 
-	private Relay bridgeKnockerDowner;
+	private Jaguar bridgeKnockerDowner;
 	private DigitalInput leftShooterLimit;
 	private DigitalInput rightShooterLimit;
 
@@ -37,7 +38,7 @@ public class HumanDriver {
 		this.bridgeKnockerDowner = components.bridgeKnockerDowner;
 		this.leftShooterLimit = components.leftShooterLimit;
 		this.rightShooterLimit = components.rightShooterLimit;
-		this.sst = new ShooterSteeringThread(shooter);
+		this.sst = new ShooterSteeringThread(shooter, operatorController);
 		components.drive.setSafetyEnabled(false);
 	}
 
@@ -91,12 +92,13 @@ public class HumanDriver {
 			} catch (Exception e) {
 			}
 		}
+		
 		if (operatorController.getButton(XboxController.Button.LeftClick) && !sst.isRunning()) {
 			try {
 				shooter.setAutosteering(false);
 				sst.die();
 				shooter.setAutosteering(true);
-				sst = new ShooterSteeringThread(shooter);
+				sst = new ShooterSteeringThread(shooter, operatorController);
 				cameraController.update();
 				sst.update(cameraController.getLowestBasket());
 				sst.start();
@@ -104,10 +106,24 @@ public class HumanDriver {
 				e.printStackTrace();
 			}
 		}
+		
 		if (operatorController.getButton(XboxController.Button.RightClick) && !sst.isRunning()) {
-			Output.say("[AutoShoot] " + CameraDataCalculator.getForce(sst.getDistance(), sst.getHeight()) / 100000000);
-			shooter.run(CameraDataCalculator.getForce(sst.getDistance(), sst.getHeight()) / 100000000);
+			Output.queue("[AutoShoot] " + CameraDataCalculator.getForce(sst.getDistance(), sst.getHeight()));
+			shooter.run(CameraDataCalculator.getForce(sst.getDistance(), sst.getHeight()));
 		}
+		
+		if (rightDriveStick.getRawButton(6)) {
+			shooterGearbox.setGear(36);
+		} else if (rightDriveStick.getRawButton(7)) {
+			shooterGearbox.setGear(25);
+		}
+		
+		if (rightDriveStick.getRawButton(8)) {
+			shooterGearbox.setGear(8);
+		} else if (rightDriveStick.getRawButton(9)) {
+			shooterGearbox.setGear(19);
+		}
+		
 		if (rightDriveStick.getRawButton(5)) {
 			shooter.run(shooterGearbox.getSpeed());
 			shooterRunning = true;
@@ -115,6 +131,7 @@ public class HumanDriver {
 			shooter.stop();
 			shooterRunning = false;
 		}
+		
 		if (operatorController.getButton(XboxController.Button.A)) {
 			conveyor.startIntake(-Configuration.intakeSpeed);
 		} else if (operatorController.getButton(XboxController.Button.B)) {
@@ -128,13 +145,15 @@ public class HumanDriver {
 		} else if (operatorController.getTriggerAxis() < -0.1) {
 			conveyor.stopIntake();
 		}
-		if (operatorController.getTriggerAxis() > 0.1) {
-			shooter.run(shooterGearbox.getSpeed());
-			shooterRunning = true;
-		} else if (operatorController.getButton(XboxController.Button.LB)) {
-			shooter.stop();
-			shooterRunning = false;
+		
+		if (operatorController.getButton(XboxController.Button.Back)) {
+			bridgeKnockerDowner.set(0.60);
+		} else if (operatorController.getButton(XboxController.Button.Start)) {
+			bridgeKnockerDowner.set(-1.0);
+		} else {
+			bridgeKnockerDowner.stopMotor();
 		}
+		
 		if (operatorController.getAxis(1, 2) > 0.5 && rightShooterLimit.get()) {
 			shooter.adjustRotation(-Configuration.autorotationSpeed - 0.05);
 		} else if (operatorController.getAxis(1, 2) < -0.5 && leftShooterLimit.get()) {
@@ -142,17 +161,19 @@ public class HumanDriver {
 		} else {
 			shooter.adjustRotation(0);
 		}
+		
 		shooter.adjustHood(0.37 * -operatorController.getAxis(2, 1));
 	}
 
 	public void handlePassiveOperating() {
-		if (operatorController.getButton(XboxController.Button.Back)) {
-			bridgeKnockerDowner.set(Relay.Value.kReverse);
-		} else if (operatorController.getButton(XboxController.Button.Start)) {
-			bridgeKnockerDowner.set(Relay.Value.kForward);
-		} else {
-			bridgeKnockerDowner.set(Relay.Value.kOff);
+		if (operatorController.getTriggerAxis() > 0.1) {
+			shooter.run(shooterGearbox.getSpeed());
+			shooterRunning = true;
+		} else if (operatorController.getButton(XboxController.Button.LB)) {
+			shooter.stop();
+			shooterRunning = false;
 		}
+		
 		if (rightDriveStick.getRawButton(11) && !shooterGearbox.didJustGearUp()) {
 			shooterGearbox.gearUp();
 		} else if (rightDriveStick.getRawButton(10) && !shooterGearbox.didJustGearDown()) {

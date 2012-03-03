@@ -32,7 +32,7 @@ public class ShooterGearbox {
 	public void setGear(int gear) {
 		if (this.gear != gear && gear < (gears.length - 1) && gear > 0) {
 			this.gear = gear;
-			Output.say("[Shooter] Gear changed to " + gear + ".");
+			Output.queue("[Shooter] Gear changed to " + gear + ".");
 			justSetGear = true;
 		}
 	}
@@ -40,7 +40,7 @@ public class ShooterGearbox {
 	public void gearDown() {
 		if (gear > 0) {
 			--gear;
-			Output.say("[Shooter] Geared down to " + gear + ".");
+			Output.queue("[Shooter] Geared down to " + gear + ".");
 			justGearedDown = true;
 		}
 	}
@@ -48,7 +48,7 @@ public class ShooterGearbox {
 	public void gearUp() {
 		if (gear < (gears.length - 1)) {
 			++gear;
-			Output.say("[Shooter] Geared up to " + gear + ".");
+			Output.queue("[Shooter] Geared up to " + gear + ".");
 			justGearedUp = true;
 		}
 	}

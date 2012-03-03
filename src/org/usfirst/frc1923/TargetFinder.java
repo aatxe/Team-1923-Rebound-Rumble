@@ -65,10 +65,10 @@ public class TargetFinder {
 				}
 			}
 		} catch (NIVisionException e) {
-			Output.say("TargetFinder:: Failed to update()");
+			Output.queue("TargetFinder:: Failed to update()");
 			e.printStackTrace();
 		}
-		Output.say("[TargetFinder] " + targets.size());
+		Output.queue("[TargetFinder] " + targets.size());
 	}
 
 	public int getNumberOfTargets() {
@@ -78,8 +78,8 @@ public class TargetFinder {
 	public CameraDataPacket[] getTargets() {
 		CameraDataPacket[] targets = new CameraDataPacket[this.targets.size()];
 		for (int i = 0; i < targets.length; i++) {
-			targets[i] = new CameraDataPacket(((ParticleAnalysisReport) this.targets.elementAt(i)).center_mass_x, ((ParticleAnalysisReport) this.targets.elementAt(i)).center_mass_y);
-			Output.say("[TargetFinder] targets[" + i + "] (" + ((ParticleAnalysisReport) this.targets.elementAt(i)).center_mass_x + ", " + ((ParticleAnalysisReport) this.targets.elementAt(i)).center_mass_y + ")");
+			targets[i] = new CameraDataPacket(((ParticleAnalysisReport) this.targets.elementAt(i)).center_mass_x, ((ParticleAnalysisReport) this.targets.elementAt(i)).center_mass_y, ((ParticleAnalysisReport) this.targets.elementAt(i)).boundingRectHeight, ((ParticleAnalysisReport) this.targets.elementAt(i)).boundingRectWidth);
+			Output.queue("[TargetFinder] targets[" + i + "] (" + ((ParticleAnalysisReport) this.targets.elementAt(i)).center_mass_x + ", " + ((ParticleAnalysisReport) this.targets.elementAt(i)).center_mass_y + ")");
 		}
 		return targets;
 	}

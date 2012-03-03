@@ -2,6 +2,7 @@ package org.usfirst.frc1923;
 
 public class ShooterSteeringThread extends Thread {
 	private Shooter shooter;
+	private XboxController operatorController;
 	private CameraDataPacket cdp;
 	private CameraDataPacket ocdp;
 	private double distance;
@@ -11,15 +12,17 @@ public class ShooterSteeringThread extends Thread {
 	private boolean justRan;
 	private boolean die;
 
-	public ShooterSteeringThread(Shooter shooter) {
+	public ShooterSteeringThread(Shooter shooter, XboxController operatorController) {
 		this.shooter = shooter;
+		this.operatorController = operatorController;
 		this.cdp = null;
 		this.needsUpdate = true;
 		justRan = false;
 	}
 
-	public ShooterSteeringThread(Shooter shooter, CameraDataPacket cdp) {
+	public ShooterSteeringThread(Shooter shooter, XboxController operatorController, CameraDataPacket cdp) {
 		this.shooter = shooter;
+		this.operatorController = operatorController;
 		this.cdp = cdp;
 		this.needsUpdate = false;
 		justRan = false;
@@ -59,14 +62,14 @@ public class ShooterSteeringThread extends Thread {
 	}
 
 	public void run() {
-		while ((!this.isCentered()) && !die && shooter.getAutosteering()) {
+		while ((!this.isCentered()) && !die && shooter.getAutosteering() && operatorController.getAxis(1, 2) < 0.1 && operatorController.getAxis(1, 2) > -0.1) {
 			distance = CameraDataCalculator.getDistance(cdp);
 			height = cdp.getBasketHeight();
 			if (!this.needsUpdate()) {
-				if (this.cdp.getX() > 326) {
+				if (this.cdp.getX() > 320 + Configuration.autorotationMargin) {
 					shooter.adjustRotation(-Configuration.autorotationSpeed);
 					needsUpdate = true;
-				} else if (this.cdp.getX() < 316) {
+				} else if (this.cdp.getX() < 320 - Configuration.autorotationMargin) {
 					shooter.adjustRotation(Configuration.autorotationSpeed);
 					needsUpdate = true;
 				} else {
@@ -77,7 +80,7 @@ public class ShooterSteeringThread extends Thread {
 				} catch (InterruptedException e) {
 				}
 				shooter.adjustRotation(0);
-				Output.say("[SST] " + isRunning);
+				Output.queue("[SST] " + isRunning);
 			}
 		}
 		if (this.isCentered() || die || !shooter.getAutosteering()) {
@@ -89,7 +92,7 @@ public class ShooterSteeringThread extends Thread {
 			isRunning = false;
 			justRan = true;
 		}
-		Output.say("[SST] " + isRunning);
+		Output.queue("[SST] " + isRunning);
 	}
 	
 	public int getHeight() {
