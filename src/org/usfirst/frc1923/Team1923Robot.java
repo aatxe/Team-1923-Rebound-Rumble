@@ -104,7 +104,7 @@ public class Team1923Robot extends IterativeRobot {
 	}
 
 	public Object[] getDriverStationData() {
-		Object[] data = new Object[9];
+		Object[] data = new Object[10];
 		data[0] = new Boolean(conveyor.isIntakeRunning());
 		data[1] = new Boolean(conveyor.isElevatorRunning());
 		data[2] = new Boolean((humanDriver.isShooterRunning() || hybridDriver.isShooterRunning()));
@@ -114,6 +114,7 @@ public class Team1923Robot extends IterativeRobot {
 		data[6] = new Boolean(components.rightShooterLimit.get());
 		data[7] = new Double(CameraDataCalculator.getDistance(humanDriver.getSST().getDataPacket()));
 		data[8] = new Double(CameraDataCalculator.getDistance(hybridDriver.getSST().getDataPacket()));
+		data[9] = new Integer(hybridDriver.getSelectedAutonomous());
 		return data;
 	}
 }

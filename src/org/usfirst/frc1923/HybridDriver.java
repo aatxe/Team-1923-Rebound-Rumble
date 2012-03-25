@@ -10,6 +10,8 @@ public class HybridDriver {
 	private CameraController cameraController;
 	private XboxController operatorController;
 	private ShooterSteeringThread sst;
+	private AutonomousSelector autsel;
+	
 
 	private DriveGearbox driveGearbox;
 	private Jaguar bridgeKnockerDowner;
@@ -24,17 +26,26 @@ public class HybridDriver {
 		this.operatorController = components.operatorController;
 		components.drive.setSafetyEnabled(false);
 		this.sst = new ShooterSteeringThread(shooter, operatorController);
+		this.autsel = new AutonomousSelector(components);
+	}
+	
+	public int getSelectedAutonomous() {
+		return this.autsel.getAutonomousSelection();
 	}
 	
 	public void prepareShooter() {
-		//conveyor.startIntake(config.intakeSpeed);
-		//if (sst.isCentered()) {
-		// shooter.run(CameraDataCalculator.getForce(sst.getDataPacket())); // automatic
-		// shooter.run(0.55); // middle hoops front-of-line
-		shooter.run(0.66); // top hoops front-of-line
-		// shooter.run(0.71); // top hoops foul-line
-		// shooter.run(0.83); // top hoops back-of-key (requires hood up)
-		//}
+		switch (this.autsel.getAutonomousSelection()) {
+			case 0:
+			case 1:
+			case 2:
+			case 3:
+			case 4:
+			case 5:
+			case 6:
+			case 7:
+			case 8:
+			case 9:
+		}
 	}
 
 	public void aimShooter() {

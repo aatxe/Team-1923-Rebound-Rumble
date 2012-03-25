@@ -75,15 +75,11 @@ public class ShooterSteeringThread extends Thread {
 				} else {
 					break;
 				}
-				try {
-					Thread.sleep(150);
-				} catch (InterruptedException e) {
-				}
-				shooter.adjustRotation(0);
 				Output.queue("[SST] " + isRunning);
 			}
 		}
 		if (this.isCentered() || die || !shooter.getAutosteering()) {
+			shooter.adjustRotation(0);
 			distance = CameraDataCalculator.getDistance(cdp);
 			height = cdp.getBasketHeight();
 			ocdp = cdp;
