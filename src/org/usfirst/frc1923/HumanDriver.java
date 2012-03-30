@@ -18,7 +18,7 @@ public class HumanDriver {
 	private DriveGearbox driveGearbox;
 	private ShooterGearbox shooterGearbox;
 
-	private Jaguar bridgeKnockerDowner;
+	private Relay bridgeKnockerDowner;
 	private DigitalInput leftShooterLimit;
 	private DigitalInput rightShooterLimit;
 
@@ -62,7 +62,7 @@ public class HumanDriver {
 
 	public void handlePassiveDriving() {
 		if (Configuration.experimentalDriving) {
-			/*
+			/* (No Spinning? It's broken.)
 			 * if (rightDriveStick.getRawButton(4)) { driveTrain.drive(0.75,
 			 * -0.75); } else if (rightDriveStick.getRawButton(5)) {
 			 * driveTrain.drive(-0.75, 0.75); }
@@ -89,8 +89,7 @@ public class HumanDriver {
 		if (sst.isRunning() && sst.needsUpdate()) {
 			try {
 				sst.update(cameraController.getLowestBasket());
-			} catch (Exception e) {
-			}
+			} catch (Exception e) {}
 		}
 		
 		if (operatorController.getButton(XboxController.Button.LeftClick) && !sst.isRunning()) {
@@ -147,16 +146,18 @@ public class HumanDriver {
 		}
 		
 		if (operatorController.getButton(XboxController.Button.Back)) {
-			bridgeKnockerDowner.set(1.0);
+			bridgeKnockerDowner.set(Relay.Value.kReverse);
 		} else if (operatorController.getButton(XboxController.Button.Start)) {
-			bridgeKnockerDowner.set(-1.0);
+			bridgeKnockerDowner.set(Relay.Value.kForward);
 		} else {
-			bridgeKnockerDowner.stopMotor();
+			bridgeKnockerDowner.set(Relay.Value.kOff);
 		}
 		
 		if (operatorController.getAxis(1, 2) > 0.5 && rightShooterLimit.get()) {
+			sst.die();
 			shooter.adjustRotation(-Configuration.autorotationSpeed - 0.05);
 		} else if (operatorController.getAxis(1, 2) < -0.5 && leftShooterLimit.get()) {
+			sst.die();
 			shooter.adjustRotation(Configuration.autorotationSpeed + 0.05);
 		} else {
 			shooter.adjustRotation(0);

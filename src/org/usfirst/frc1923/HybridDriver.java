@@ -1,7 +1,7 @@
 package org.usfirst.frc1923;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Relay;
-import edu.wpi.first.wpilibj.Jaguar;
 
 public class HybridDriver {
 	private DriveTrain driveTrain;
@@ -11,10 +11,10 @@ public class HybridDriver {
 	private XboxController operatorController;
 	private ShooterSteeringThread sst;
 	private AutonomousSelector autsel;
-	
-
+	private Encoder leftEncoder;
+	private Encoder rightEncoder;
 	private DriveGearbox driveGearbox;
-	private Jaguar bridgeKnockerDowner;
+	private Relay bridgeKnockerDowner;
 
 	public HybridDriver(DriveTrain driveTrain, Configuration config, Shooter shooter, Conveyor conveyor, CameraController cameraController, Components components) {
 		this.driveTrain = driveTrain;
@@ -27,27 +27,19 @@ public class HybridDriver {
 		components.drive.setSafetyEnabled(false);
 		this.sst = new ShooterSteeringThread(shooter, operatorController);
 		this.autsel = new AutonomousSelector(components);
+		this.leftEncoder = components.leftEncoder;
+		this.rightEncoder = components.rightEncoder;
 	}
 	
-	public int getSelectedAutonomous() {
-		return this.autsel.getAutonomousSelection();
+	public void prepare(double speed) {
+		this.startShooterWheel(speed);
+		this.aimShooter();
 	}
 	
-	public void prepareShooter() {
-		switch (this.autsel.getAutonomousSelection()) {
-			case 0:
-			case 1:
-			case 2:
-			case 3:
-			case 4:
-			case 5:
-			case 6:
-			case 7:
-			case 8:
-			case 9:
-		}
+	public void startShooterWheel(double speed) {
+		shooter.run(speed);
 	}
-
+	
 	public void aimShooter() {
 		try {
 			sst = new ShooterSteeringThread(shooter, operatorController);
@@ -59,28 +51,34 @@ public class HybridDriver {
 		}
 	}
 
-	public void shoot() {
+	public void startElevator() {
 		conveyor.runElevator(Relay.Value.kForward);
 	}
 	
-	public void hold() {
-		conveyor.runElevator(Relay.Value.kOff);
+	public void stopElevator() {
+		conveyor.stopElevator();
 	}
 
-	public void cleanUp() {
+	public void stopEverything() {
 		conveyor.stopElevator();
 		conveyor.stopIntake();
 		shooter.stop();
 	}
+	
+	public void adjustHood(int millis, boolean goUp) {
+		new ShooterHoodThread(shooter, millis, goUp).start();
+	}
+	
+	public void drive(int distance) {
+		new RobotDrivingThread(driveTrain, leftEncoder, rightEncoder, distance).start();
+	}
+	
+	public int getAverageEncoderValue() {
+		return ((this.leftEncoder.get() + this.rightEncoder.get()) / 2);
+	}
 
-	public void getInPositionToGetBalls() {
-		// from bridge, not ball hole (saves
-		// time, time is money, saves money,
-		// budget problem fixed!)
-		driveTrain.drive(5, 5); // set up later, need position of robot relative
-								// to more balls
-		// use the sensors to judge position, and then go/stop/turn/pick up
-		// balls
+	public int getSelectedAutonomous() {
+		return this.autsel.getAutonomousSelection();
 	}
 
 	public boolean isShooterRunning() {

@@ -14,7 +14,7 @@ public class Team1923Robot extends IterativeRobot {
 
 	private HumanDriver humanDriver = new HumanDriver(driveTrain, shooter, conveyor, cameraController, components);
 	private HybridDriver hybridDriver = new HybridDriver(driveTrain, config ,shooter, conveyor, cameraController, components);
-
+	
 	public void robotInit() {
 		Output.queue("Robot Initialized.");
 		components.kaynine = getWatchdog();
@@ -50,7 +50,8 @@ public class Team1923Robot extends IterativeRobot {
 		Output.queue("Robot Enabled:: Hybrid Mode Initialized.");
 		driverStation.updateScreen(this.getDriverStationData());
 		cameraController.update();
-		new Thread(new Runnable() {
+		AutonomousThread at = new AutonomousThread(hybridDriver);
+		/*new Thread(new Runnable() {
 			public void run() {
 				hybridDriver.aimShooter();
 				hybridDriver.prepareShooter();
@@ -75,7 +76,7 @@ public class Team1923Robot extends IterativeRobot {
 				}
 				hybridDriver.cleanUp();
 			}
-		}).start();
+		}).start();*/
 	}
 
 	public void autonomousPeriodic() {

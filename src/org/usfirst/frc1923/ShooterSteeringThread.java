@@ -62,7 +62,7 @@ public class ShooterSteeringThread extends Thread {
 	}
 
 	public void run() {
-		while ((!this.isCentered()) && !die && shooter.getAutosteering() && operatorController.getAxis(1, 2) < 0.1 && operatorController.getAxis(1, 2) > -0.1) {
+		while ((!this.isCentered()) && !die && shooter.getAutosteering() && operatorController.getAxis(1, 2) <= 0.5 && operatorController.getAxis(1, 2) >= -0.5) {
 			distance = CameraDataCalculator.getDistance(cdp);
 			height = cdp.getBasketHeight();
 			if (!this.needsUpdate()) {
