@@ -13,7 +13,7 @@ public class AutonomousThread extends Thread {
 				try {
 					int distance = 1514;
 					int shooterDistance = 500;
-					double shooterPower = 0.52;
+					double shooterPower = 0.53;
 					hybridDriver.adjustHood(3000, true);
 					hybridDriver.drive(distance);
 					while (hybridDriver.getAverageEncoderValue() < shooterDistance) {
@@ -37,7 +37,7 @@ public class AutonomousThread extends Thread {
 				try {
 					int distance = 1514;
 					int shooterDistance = 500;
-					double shooterPower = 0.42;
+					double shooterPower = 0.38;
 					hybridDriver.adjustHood(3000, true);
 					hybridDriver.drive(distance);
 					while (hybridDriver.getAverageEncoderValue() < shooterDistance) {
