@@ -1,6 +1,7 @@
 package org.usfirst.frc1923;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.Relay;
 
 public class HybridDriver {
@@ -14,7 +15,7 @@ public class HybridDriver {
 	private Encoder leftEncoder;
 	private Encoder rightEncoder;
 	private DriveGearbox driveGearbox;
-	private Relay bridgeKnockerDowner;
+	private Jaguar bridgeKnockerDowner;
 
 	public HybridDriver(DriveTrain driveTrain, Configuration config, Shooter shooter, Conveyor conveyor, CameraController cameraController, Components components) {
 		this.driveTrain = driveTrain;

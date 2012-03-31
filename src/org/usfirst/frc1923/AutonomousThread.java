@@ -60,7 +60,7 @@ public class AutonomousThread extends Thread {
 			case 3:
 				try {
 					int delayMillis = 3000;
-					double shooterSpeed = 0.63;
+					double shooterSpeed = 0.59;
 					hybridDriver.aimShooter();
 					Thread.sleep(delayMillis);
 					hybridDriver.startShooterWheel(shooterSpeed);
@@ -78,7 +78,7 @@ public class AutonomousThread extends Thread {
 			case 4:
 				try {
 					int delayMillis = 5000;
-					double shooterSpeed = 0.63;
+					double shooterSpeed = 0.59;
 					hybridDriver.aimShooter();
 					Thread.sleep(delayMillis);
 					hybridDriver.startShooterWheel(shooterSpeed);

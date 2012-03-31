@@ -18,7 +18,7 @@ public class HumanDriver {
 	private DriveGearbox driveGearbox;
 	private ShooterGearbox shooterGearbox;
 
-	private Relay bridgeKnockerDowner;
+	private Jaguar bridgeKnockerDowner;
 	private DigitalInput leftShooterLimit;
 	private DigitalInput rightShooterLimit;
 
@@ -146,11 +146,14 @@ public class HumanDriver {
 		}
 		
 		if (operatorController.getButton(XboxController.Button.Back)) {
-			bridgeKnockerDowner.set(Relay.Value.kReverse);
+			bridgeKnockerDowner.set(1.0);
+			// bridgeKnockerDowner.set(Relay.Value.kReverse);
 		} else if (operatorController.getButton(XboxController.Button.Start)) {
-			bridgeKnockerDowner.set(Relay.Value.kForward);
+			bridgeKnockerDowner.set(-1.0);
+			// bridgeKnockerDowner.set(Relay.Value.kForward);
 		} else {
-			bridgeKnockerDowner.set(Relay.Value.kOff);
+			bridgeKnockerDowner.stopMotor();
+			// bridgeKnockerDowner.set(Relay.Value.kOff);
 		}
 		
 		if (operatorController.getAxis(1, 2) > 0.5 && rightShooterLimit.get()) {

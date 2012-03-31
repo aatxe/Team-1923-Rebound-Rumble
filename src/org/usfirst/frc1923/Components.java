@@ -23,7 +23,7 @@ public class Components {
 	public final BhavishStick leftDriveStick = new BhavishStick(1);
 	public final BhavishStick rightDriveStick = new BhavishStick(2);
 	public final XboxController operatorController = new XboxController(3);
-	public final Relay bridgeKnockerDowner = new Relay(1);
+	public final Jaguar bridgeKnockerDowner = new Jaguar(7);
 	public final DigitalInput selectorPortOne = new DigitalInput(11);
 	public final DigitalInput selectorPortTwo = new DigitalInput(12);
 	public final DigitalInput selectorPortThree = new DigitalInput(13);
