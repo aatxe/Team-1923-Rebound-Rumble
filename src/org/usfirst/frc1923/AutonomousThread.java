@@ -6,27 +6,27 @@ public class AutonomousThread extends Thread {
 	public AutonomousThread(HybridDriver hybridDriver) {
 		this.hybridDriver = hybridDriver;
 	}
+	
+	public void die() {
+		this.hybridDriver.die();
+		this.interrupt();
+	}
 
 	public void run() {
 		switch (hybridDriver.getSelectedAutonomous()) { 
 			case 1:
 				try {
-					int distance = 1514;
-					int shooterDistance = 500;
-					double shooterPower = 0.53;
+					int distance = 1000;
+					double shooterPower = 0.50;
 					hybridDriver.adjustHood(3000, true);
 					hybridDriver.drive(distance);
-					while (hybridDriver.getAverageEncoderValue() < shooterDistance) {
-						Thread.sleep(25);
-					}
+					Thread.sleep(3000);
 					hybridDriver.startShooterWheel(shooterPower);
-					while (hybridDriver.getAverageEncoderValue() < distance) {
-						Thread.sleep(25);
-					}
+					Thread.sleep(3500);
 					hybridDriver.startElevator();
 					Thread.sleep(1500);
 					hybridDriver.stopElevator();
-					Thread.sleep(4000);
+					Thread.sleep(3500);
 					hybridDriver.startElevator();
 					Thread.sleep(1500);
 					hybridDriver.stopEverything();
@@ -35,22 +35,17 @@ public class AutonomousThread extends Thread {
 				}
 			case 2:
 				try {
-					int distance = 1514;
-					int shooterDistance = 500;
+					int distance = 1000;
 					double shooterPower = 0.38;
 					hybridDriver.adjustHood(3000, true);
 					hybridDriver.drive(distance);
-					while (hybridDriver.getAverageEncoderValue() < shooterDistance) {
-						Thread.sleep(25);
-					}
+					Thread.sleep(3000);
 					hybridDriver.startShooterWheel(shooterPower);
-					while (hybridDriver.getAverageEncoderValue() < distance) {
-						Thread.sleep(25);
-					}
+					Thread.sleep(3500);
 					hybridDriver.startElevator();
 					Thread.sleep(1500);
 					hybridDriver.stopElevator();
-					Thread.sleep(4000);
+					Thread.sleep(3500);
 					hybridDriver.startElevator();
 					Thread.sleep(1500);
 					hybridDriver.stopEverything();
@@ -61,7 +56,8 @@ public class AutonomousThread extends Thread {
 				try {
 					int delayMillis = 3000;
 					double shooterSpeed = 0.59;
-					hybridDriver.aimShooter();
+					// hybridDriver.aimShooter();
+					hybridDriver.adjustHood(3000, true);
 					Thread.sleep(delayMillis);
 					hybridDriver.startShooterWheel(shooterSpeed);
 					Thread.sleep(3000);
@@ -79,7 +75,8 @@ public class AutonomousThread extends Thread {
 				try {
 					int delayMillis = 5000;
 					double shooterSpeed = 0.59;
-					hybridDriver.aimShooter();
+					// hybridDriver.aimShooter();
+					hybridDriver.adjustHood(3000, true);
 					Thread.sleep(delayMillis);
 					hybridDriver.startShooterWheel(shooterSpeed);
 					Thread.sleep(3000);
@@ -93,12 +90,51 @@ public class AutonomousThread extends Thread {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
+			case 7:
+				try {
+					int delayMillis = 0;
+					double shooterSpeed = 0.62;
+					// hybridDriver.aimShooter(false);
+					hybridDriver.adjustHood(3000, true);
+					Thread.sleep(delayMillis);
+					hybridDriver.startShooterWheel(shooterSpeed);
+					Thread.sleep(4000);
+					hybridDriver.startElevator();
+					Thread.sleep(1500);
+					hybridDriver.stopElevator();
+					Thread.sleep(4000);
+					hybridDriver.startElevator();
+					Thread.sleep(3000);
+					hybridDriver.stopEverything();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			case 8: 
+				try {
+					int delayMillis = 0;
+					double shooterSpeed = 0.50;
+					// hybridDriver.aimShooter(false);
+					hybridDriver.adjustHood(3000, true);
+					Thread.sleep(delayMillis);
+					hybridDriver.startShooterWheel(shooterSpeed);
+					Thread.sleep(4000);
+					hybridDriver.startElevator();
+					Thread.sleep(1500);
+					hybridDriver.stopElevator();
+					Thread.sleep(4000);
+					hybridDriver.startElevator();
+					Thread.sleep(3000);
+					hybridDriver.stopEverything();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			case 9:
 				try {
 					int delayMillis = 0;
-					double shooterSpeed = 0.66;
+					double shooterSpeed = 0.59;
 					Thread.sleep(delayMillis);
-					hybridDriver.aimShooter();
+					// hybridDriver.aimShooter();
+					hybridDriver.adjustHood(3000, true);
 					hybridDriver.startShooterWheel(shooterSpeed);
 					Thread.sleep(4000);
 					hybridDriver.startElevator();

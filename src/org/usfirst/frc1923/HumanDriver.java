@@ -112,15 +112,15 @@ public class HumanDriver {
 		}
 		
 		if (rightDriveStick.getRawButton(6)) {
-			shooterGearbox.setGear(36);
+			shooterGearbox.setGear(Configuration.keyTop - 30);
 		} else if (rightDriveStick.getRawButton(7)) {
-			shooterGearbox.setGear(25);
+			shooterGearbox.setGear(Configuration.keyMiddle - 30);
 		}
 		
 		if (rightDriveStick.getRawButton(8)) {
-			shooterGearbox.setGear(8);
+			shooterGearbox.setGear(Configuration.fenderTop - 30);
 		} else if (rightDriveStick.getRawButton(9)) {
-			shooterGearbox.setGear(19);
+			shooterGearbox.setGear(Configuration.fenderMiddle - 30);
 		}
 		
 		if (rightDriveStick.getRawButton(5)) {
@@ -213,5 +213,14 @@ public class HumanDriver {
 
 	public ShooterSteeringThread getSST() {
 		return sst;
+	}
+	
+	public void stopEverything() {
+		shooter.stop();
+		shooter.adjustHood(0);
+		shooter.adjustRotation(0);
+		conveyor.stopElevator();
+		conveyor.stopIntake();
+		driveTrain.stop();
 	}
 }

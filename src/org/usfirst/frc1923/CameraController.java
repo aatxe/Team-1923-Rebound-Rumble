@@ -32,9 +32,10 @@ public class CameraController {
 		return null;
 	}
 
-	public CameraDataPacket getMiddleBasket(char position) {
+	public CameraDataPacket getMiddleBasket() {
 		CameraDataPacket[] targets = prioritizer.getTargets();
 		CameraDataPacket bhavish = new CameraDataPacket(320, 240);
+		char position = 'l';
 		if (targets.length == 2) {
 			bhavish = targets[1];
 		} else if (targets.length == 4) {

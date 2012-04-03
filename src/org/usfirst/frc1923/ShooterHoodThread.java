@@ -13,7 +13,7 @@ public class ShooterHoodThread extends Thread {
 	
 	public void run() {
 		try {
-			shooter.adjustHood((this.goUp) ? -0.37 : 0.37);
+			shooter.adjustHood((this.goUp) ? 0.37 : -0.37);
 			Thread.sleep(millis);
 			shooter.adjustHood(0);
 		} catch (InterruptedException e) {

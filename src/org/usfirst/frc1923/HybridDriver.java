@@ -16,8 +16,11 @@ public class HybridDriver {
 	private Encoder rightEncoder;
 	private DriveGearbox driveGearbox;
 	private Jaguar bridgeKnockerDowner;
+	
+	private ShooterHoodThread shooterThread;
+	private RobotDrivingThread driveThread;
 
-	public HybridDriver(DriveTrain driveTrain, Configuration config, Shooter shooter, Conveyor conveyor, CameraController cameraController, Components components) {
+	public HybridDriver(DriveTrain driveTrain, Shooter shooter, Conveyor conveyor, CameraController cameraController, Components components) {
 		this.driveTrain = driveTrain;
 		this.shooter = shooter;
 		this.conveyor = conveyor;
@@ -42,10 +45,18 @@ public class HybridDriver {
 	}
 	
 	public void aimShooter() {
+		this.aimShooter(true);
+	}
+	
+	public void aimShooter(boolean shootForTop) {
 		try {
 			sst = new ShooterSteeringThread(shooter, operatorController);
 			cameraController.update();
-			sst.update(cameraController.getLowestBasket());
+			if (shootForTop) { 
+				sst.update(cameraController.getLowestBasket());
+			} else {
+				sst.update(cameraController.getMiddleBasket());
+			}
 			sst.start();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -67,11 +78,20 @@ public class HybridDriver {
 	}
 	
 	public void adjustHood(int millis, boolean goUp) {
-		new ShooterHoodThread(shooter, millis, goUp).start();
+		shooterThread = new ShooterHoodThread(shooter, millis, goUp);
+		shooterThread.start();
 	}
 	
 	public void drive(int distance) {
-		new RobotDrivingThread(driveTrain, leftEncoder, rightEncoder, distance).start();
+		driveThread = new RobotDrivingThread(driveTrain, leftEncoder, rightEncoder, distance);
+		driveThread.start();
+	}
+	
+	public void die() {
+		try {
+			shooterThread.interrupt();
+			driveThread.interrupt();
+		} catch (Exception e) {}
 	}
 	
 	public int getAverageEncoderValue() {

@@ -10,10 +10,11 @@ public class Team1923Robot extends IterativeRobot {
 	private DriveTrain driveTrain = new DriveTrain(components);
 	private DriverStation driverStation = new DriverStation();
 	private Shooter shooter = new Shooter(components);
-	private Configuration config = new Configuration();
 
 	private HumanDriver humanDriver = new HumanDriver(driveTrain, shooter, conveyor, cameraController, components);
-	private HybridDriver hybridDriver = new HybridDriver(driveTrain, config ,shooter, conveyor, cameraController, components);
+	private HybridDriver hybridDriver = new HybridDriver(driveTrain, shooter, conveyor, cameraController, components);
+
+	private AutonomousThread at;
 	
 	public void robotInit() {
 		Output.queue("Robot Initialized.");
@@ -50,33 +51,8 @@ public class Team1923Robot extends IterativeRobot {
 		Output.queue("Robot Enabled:: Hybrid Mode Initialized.");
 		driverStation.updateScreen(this.getDriverStationData());
 		cameraController.update();
-		AutonomousThread at = new AutonomousThread(hybridDriver);
-		/*new Thread(new Runnable() {
-			public void run() {
-				hybridDriver.aimShooter();
-				hybridDriver.prepareShooter();
-				try {
-					Thread.sleep(4000);
-				} catch (InterruptedException e) {
-				}
-				hybridDriver.shoot();
-				try {
-					Thread.sleep(1500);
-				} catch (InterruptedException e) {
-				}
-				hybridDriver.hold();
-				try {
-					Thread.sleep(4000);
-				} catch (InterruptedException e) {
-				}
-				hybridDriver.shoot();
-				try {
-					Thread.sleep(3000);
-				} catch (InterruptedException e) {
-				}
-				hybridDriver.cleanUp();
-			}
-		}).start();*/
+		at = new AutonomousThread(hybridDriver);
+		at.start();
 	}
 
 	public void autonomousPeriodic() {
@@ -91,6 +67,10 @@ public class Team1923Robot extends IterativeRobot {
 		Output.queue("Robot Enabled:: Tele-Op Mode Initialized.");
 		driverStation.updateScreen(this.getDriverStationData());
 		cameraController.update();
+		try {
+			at.die(); // Kill autonomous.
+		} catch (NullPointerException e) {}
+		humanDriver.stopEverything();
 	}
 
 	public void teleopPeriodic() {
