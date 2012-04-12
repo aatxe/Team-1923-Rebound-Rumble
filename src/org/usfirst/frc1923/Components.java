@@ -15,8 +15,8 @@ public class Components {
 	public final Jaguar shooter = new Jaguar(5);
 	public final Jaguar hood = new Jaguar(8);
 	public final Jaguar rotaryControl = new Jaguar(6);
-	public final DigitalInput leftShooterLimit = new DigitalInput(1);
-	public final DigitalInput rightShooterLimit = new DigitalInput(2);
+	public final DigitalInput leftShooterLimit = new DigitalInput(2);
+	public final DigitalInput rightShooterLimit = new DigitalInput(1);
 	public final Jaguar pickupConveyorLeft = new Jaguar(9);
 	public final Jaguar pickupConveyorRight = new Jaguar(10);
 	public final Relay middleConveyor = new Relay(2);

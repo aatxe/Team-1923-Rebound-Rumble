@@ -4,7 +4,7 @@ public class Configuration {
 	public static final boolean reversedControls = false;
 	public static final boolean gearShifter = true;
 	public static final boolean experimentalDriving = true;
-	public static final double intakeSpeed = 0.60;
+	public static final double intakeSpeed = 0.75;
 	public static final double autorotationSpeed = 0.09;
 	public static final double autorotationMargin = 5;
 	public static final double autonomousDriveSpeed = 0.45;

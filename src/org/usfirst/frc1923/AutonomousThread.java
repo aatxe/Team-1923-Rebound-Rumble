@@ -112,7 +112,7 @@ public class AutonomousThread extends Thread {
 			case 8: 
 				try {
 					int delayMillis = 0;
-					double shooterSpeed = 0.50;
+					double shooterSpeed = 0.52;
 					// hybridDriver.aimShooter(false);
 					hybridDriver.adjustHood(3000, true);
 					Thread.sleep(delayMillis);

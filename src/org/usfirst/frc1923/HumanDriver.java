@@ -132,9 +132,9 @@ public class HumanDriver {
 		}
 		
 		if (operatorController.getButton(XboxController.Button.A)) {
-			conveyor.startIntake(-Configuration.intakeSpeed);
+			conveyor.startIntake(Configuration.intakeSpeed);
 		} else if (operatorController.getButton(XboxController.Button.B)) {
-			conveyor.startIntake(Configuration.intakeSpeed / 2);
+			conveyor.startIntake(-Configuration.intakeSpeed / 2);
 		} else if (operatorController.getButton(XboxController.Button.Y)) {
 			conveyor.runElevator(Relay.Value.kReverse);
 		} else if (operatorController.getButton(XboxController.Button.X)) {
