@@ -112,15 +112,15 @@ public class HumanDriver {
 		}
 		
 		if (rightDriveStick.getRawButton(6)) {
-			shooterGearbox.setGear(Configuration.keyTop - 30);
+			shooterGearbox.setGear(Configuration.gKeyTop - 30);
 		} else if (rightDriveStick.getRawButton(7)) {
-			shooterGearbox.setGear(Configuration.keyMiddle - 30);
+			shooterGearbox.setGear(Configuration.gKeyMiddle - 30);
 		}
 		
 		if (rightDriveStick.getRawButton(8)) {
-			shooterGearbox.setGear(Configuration.fenderTop - 30);
+			shooterGearbox.setGear(Configuration.gFenderTop - 30);
 		} else if (rightDriveStick.getRawButton(9)) {
-			shooterGearbox.setGear(Configuration.fenderMiddle - 30);
+			shooterGearbox.setGear(Configuration.gFenderMiddle - 30);
 		}
 		
 		if (rightDriveStick.getRawButton(5)) {

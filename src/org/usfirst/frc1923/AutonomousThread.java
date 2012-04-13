@@ -17,7 +17,7 @@ public class AutonomousThread extends Thread {
 			case 1:
 				try {
 					int distance = 1000;
-					double shooterPower = 0.50;
+					double shooterPower = Configuration.sFenderTop;
 					hybridDriver.adjustHood(3000, true);
 					hybridDriver.drive(distance);
 					Thread.sleep(3000);
@@ -36,7 +36,7 @@ public class AutonomousThread extends Thread {
 			case 2:
 				try {
 					int distance = 1000;
-					double shooterPower = 0.38;
+					double shooterPower = Configuration.sFenderMiddle;
 					hybridDriver.adjustHood(3000, true);
 					hybridDriver.drive(distance);
 					Thread.sleep(3000);
@@ -55,7 +55,7 @@ public class AutonomousThread extends Thread {
 			case 3:
 				try {
 					int delayMillis = 3000;
-					double shooterSpeed = 0.59;
+					double shooterSpeed = Configuration.sKeyTop;
 					// hybridDriver.aimShooter();
 					hybridDriver.adjustHood(3000, true);
 					Thread.sleep(delayMillis);
@@ -74,7 +74,7 @@ public class AutonomousThread extends Thread {
 			case 4:
 				try {
 					int delayMillis = 5000;
-					double shooterSpeed = 0.59;
+					double shooterSpeed = Configuration.sKeyTop;
 					// hybridDriver.aimShooter();
 					hybridDriver.adjustHood(3000, true);
 					Thread.sleep(delayMillis);
@@ -93,7 +93,7 @@ public class AutonomousThread extends Thread {
 			case 7:
 				try {
 					int delayMillis = 0;
-					double shooterSpeed = 0.62;
+					double shooterSpeed = Configuration.sKeyTop;
 					// hybridDriver.aimShooter(false);
 					hybridDriver.adjustHood(3000, true);
 					Thread.sleep(delayMillis);
@@ -112,7 +112,7 @@ public class AutonomousThread extends Thread {
 			case 8: 
 				try {
 					int delayMillis = 0;
-					double shooterSpeed = 0.52;
+					double shooterSpeed = Configuration.sKeyMiddle;
 					// hybridDriver.aimShooter(false);
 					hybridDriver.adjustHood(3000, true);
 					Thread.sleep(delayMillis);
@@ -131,10 +131,10 @@ public class AutonomousThread extends Thread {
 			case 9:
 				try {
 					int delayMillis = 0;
-					double shooterSpeed = 0.59;
-					Thread.sleep(delayMillis);
+					double shooterSpeed = Configuration.sKeyTop;
 					// hybridDriver.aimShooter();
 					hybridDriver.adjustHood(3000, true);
+					Thread.sleep(delayMillis);
 					hybridDriver.startShooterWheel(shooterSpeed);
 					Thread.sleep(4000);
 					hybridDriver.startElevator();

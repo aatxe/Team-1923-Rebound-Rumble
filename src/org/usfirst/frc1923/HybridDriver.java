@@ -17,7 +17,7 @@ public class HybridDriver {
 	private DriveGearbox driveGearbox;
 	private Jaguar bridgeKnockerDowner;
 	
-	private ShooterHoodThread shooterThread;
+	private ShooterHoodThread shooterHoodThread;
 	private RobotDrivingThread driveThread;
 
 	public HybridDriver(DriveTrain driveTrain, Shooter shooter, Conveyor conveyor, CameraController cameraController, Components components) {
@@ -78,8 +78,8 @@ public class HybridDriver {
 	}
 	
 	public void adjustHood(int millis, boolean goUp) {
-		shooterThread = new ShooterHoodThread(shooter, millis, goUp);
-		shooterThread.start();
+		shooterHoodThread = new ShooterHoodThread(shooter, millis, goUp);
+		shooterHoodThread.start();
 	}
 	
 	public void drive(int distance) {
@@ -89,7 +89,7 @@ public class HybridDriver {
 	
 	public void die() {
 		try {
-			shooterThread.interrupt();
+			shooterHoodThread.interrupt();
 			driveThread.interrupt();
 		} catch (Exception e) {}
 	}
