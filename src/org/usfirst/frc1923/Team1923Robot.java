@@ -69,6 +69,8 @@ public class Team1923Robot extends IterativeRobot {
 		cameraController.update();
 		try {
 			at.die(); // Kill autonomous.
+			at.die(); // Die. seriously.
+			at.die(); // seriously.
 		} catch (NullPointerException e) {}
 		humanDriver.stopEverything();
 	}

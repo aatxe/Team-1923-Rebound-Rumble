@@ -7,6 +7,7 @@ public class RobotDrivingThread extends Thread {
 	private Encoder leftEncoder;
 	private Encoder rightEncoder;
 	private int distance;
+	private boolean shouldDie;
 	
 	public RobotDrivingThread(DriveTrain driveTrain, Encoder leftEncoder, Encoder rightEncoder, int distance) {
 		this.driveTrain = driveTrain;
@@ -20,7 +21,8 @@ public class RobotDrivingThread extends Thread {
 	}
 	
 	public void run() {
-		while (this.getAverageEncoderValue() <= distance) {
+		this.shouldDie = false;
+		while (this.getAverageEncoderValue() <= distance && !this.shouldDie()) {
 			if (this.leftEncoder.get() > this.rightEncoder.get()) {
 				driveTrain.drive(Configuration.autonomousDriveSpeed, Configuration.autonomousDriveSpeed + .0375);
 			} else if (this.leftEncoder.get() < this.rightEncoder.get()) {
@@ -29,8 +31,16 @@ public class RobotDrivingThread extends Thread {
 				driveTrain.drive(Configuration.autonomousDriveSpeed, Configuration.autonomousDriveSpeed);
 			}
 		}
-		if (this.getAverageEncoderValue() >= distance) {
+		if (this.getAverageEncoderValue() >= distance || this.shouldDie()) {
 			driveTrain.stop();
 		}
+	}
+	
+	protected boolean shouldDie() {
+		return (this.shouldDie);
+	}
+	
+	public void die() {
+		this.shouldDie = true;
 	}
 }

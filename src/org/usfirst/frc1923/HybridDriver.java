@@ -75,6 +75,7 @@ public class HybridDriver {
 		conveyor.stopElevator();
 		conveyor.stopIntake();
 		shooter.stop();
+		driveThread.die();
 	}
 	
 	public void adjustHood(int millis, boolean goUp) {
@@ -85,6 +86,10 @@ public class HybridDriver {
 	public void drive(int distance) {
 		driveThread = new RobotDrivingThread(driveTrain, leftEncoder, rightEncoder, distance);
 		driveThread.start();
+	}
+	
+	public void stopDriving() {
+		driveThread.die();
 	}
 	
 	public void die() {
