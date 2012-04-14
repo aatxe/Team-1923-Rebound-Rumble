@@ -84,6 +84,7 @@ public class Team1923Robot extends IterativeRobot {
 	public void teleopContinuous() {
 		humanDriver.handleActiveDriving();
 		humanDriver.handleActiveOperating();
+		humanDriver.runShooter();
 	}
 
 	public Object[] getDriverStationData() {

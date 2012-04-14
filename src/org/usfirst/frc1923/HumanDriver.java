@@ -171,11 +171,9 @@ public class HumanDriver {
 
 	public void handlePassiveOperating() {
 		if (operatorController.getTriggerAxis() > 0.1) {
-			shooter.run(shooterGearbox.getSpeed());
-			shooterRunning = true;
+			shooterGearbox.setGear(Configuration.gFenderTop - 30);
 		} else if (operatorController.getButton(XboxController.Button.LB)) {
-			shooter.stop();
-			shooterRunning = false;
+			shooterGearbox.setGear(Configuration.gKeyTop - 30);
 		}
 		
 		if (rightDriveStick.getRawButton(11) && !shooterGearbox.didJustGearUp()) {
@@ -213,6 +211,10 @@ public class HumanDriver {
 
 	public ShooterSteeringThread getSST() {
 		return sst;
+	}
+	
+	public void runShooter() {
+		shooter.run(shooterGearbox.getSpeed());
 	}
 	
 	public void stopEverything() {
